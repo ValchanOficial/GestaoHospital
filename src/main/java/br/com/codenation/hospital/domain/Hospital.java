@@ -1,10 +1,14 @@
 package br.com.codenation.hospital.domain;
 
 import java.io.Serializable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection="hospital_collection")
 public class Hospital implements Serializable{
 	private static final long serialVersionUID = 3224856882946962360L;
 	
+	@Id
 	private String id;
 	private String name;
 	private String address;
