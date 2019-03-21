@@ -1,12 +1,15 @@
 package br.com.codenation.hospital.resource;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.services.HospitalService;
 
 @RestController
@@ -17,8 +20,14 @@ public class HospitalResource {
 	private HospitalService service;
 	
 	@GetMapping("/v1/hospitais")
-	public ResponseEntity<List<Hospital>> findAll(){
+	public ResponseEntity<List<HospitalDTO>> findAll(){
 		List<Hospital> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+		List<HospitalDTO> listDTO = list.stream().map(x -> new HospitalDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+	@GetMapping("/v1/hospitais/{id}")
+	public ResponseEntity<HospitalDTO> findById(@PathVariable String id){
+		Hospital obj = service.findById(id);
+		return ResponseEntity.ok().body(new HospitalDTO(obj));
 	}
 }
