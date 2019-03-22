@@ -35,6 +35,19 @@ public class HospitalService {
 		repo.deleteById(id);
 	}
 	
+	public Hospital update(Hospital obj) {
+		Hospital newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Hospital newObj, Hospital obj) {
+		newObj.setName(obj.getName());
+		newObj.setAddress(obj.getAddress());
+		newObj.setBeds(obj.getBeds());
+		newObj.setAvailableBeds(obj.getAvailableBeds());
+	}
+
 	public Hospital fromDTO(HospitalDTO objDTO) {
 		return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
 	}

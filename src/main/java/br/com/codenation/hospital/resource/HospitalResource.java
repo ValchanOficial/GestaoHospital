@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,6 +51,14 @@ public class HospitalResource {
 	@DeleteMapping("/v1/hospitais/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable String id){
 		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/v1/hospitais/{id}")
+	public ResponseEntity<HospitalDTO> update(@RequestBody HospitalDTO objDTO, @PathVariable String id){
+		Hospital obj = service.fromDTO(objDTO);
+		obj.setId(id);
+		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 }
