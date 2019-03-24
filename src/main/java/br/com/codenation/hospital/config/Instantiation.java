@@ -50,11 +50,22 @@ public class Instantiation implements CommandLineRunner{
 		
 		patientRepository.saveAll(Arrays.asList(pacient1,pacient2,pacient3));
 		
-		Product produto1 = new Product(null, "Alimento", "Maçã", 12, new ProductDTO(hospitalUm));
+		Product produto1 = new Product(null, "Alimento", "Maçã", 12, new ProductDTO(hospitalDois));
 		Product produto2 = new Product(null, "Alimento", "Arroz", 3, new ProductDTO(hospitalTres));
 		Product produto3 = new Product(null, "Alimento", "Feijão", 2, new ProductDTO(hospitalTres));
 		Product produto4 = new Product(null, "Alimento", "Massa", 5, new ProductDTO(hospitalTres));
 		
 		productRepository.saveAll(Arrays.asList(produto1,produto2,produto3,produto4));
+		
+		//referenciando pacientes e produtos ao hospital
+		hospitalUm.getPatients().addAll(Arrays.asList(pacient1,pacient2));
+		hospitalTres.getPatients().addAll(Arrays.asList(pacient3));
+		
+		hospitalTres.getProducts().addAll(Arrays.asList(produto2,produto3,produto4));
+		hospitalDois.getProducts().addAll(Arrays.asList(produto1));
+		
+		hospitalRepository.save(hospitalUm);
+		hospitalRepository.save(hospitalDois);
+		hospitalRepository.save(hospitalTres);
 	}
 }
