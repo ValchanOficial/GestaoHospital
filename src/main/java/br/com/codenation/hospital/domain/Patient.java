@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.codenation.hospital.dto.PatientDTO;
+
 @Document(collection="patient_collection")
 public class Patient implements Serializable{
 	private static final long serialVersionUID = 3741196581009802558L;
@@ -16,13 +18,13 @@ public class Patient implements Serializable{
 	private Date birthDate;
 	private String gender;
 	private Date entryDate;
-	private Hospital hospital;
+	private PatientDTO hospital;
 	
 	public Patient() {
 		
 	}
 	
-	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, Hospital hospital) {
+	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -69,10 +71,10 @@ public class Patient implements Serializable{
 	public void setEntryDate(Date entryDate) {
 		this.entryDate = entryDate;
 	}
-	public Hospital getHospital() {
+	public PatientDTO getHospital() {
 		return hospital;
 	}
-	public void setHospital(Hospital hospital) {
+	public void setHospital(PatientDTO hospital) {
 		this.hospital = hospital;
 	}
 	
