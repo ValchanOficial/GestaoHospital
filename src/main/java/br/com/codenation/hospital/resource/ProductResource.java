@@ -16,12 +16,6 @@ public class ProductResource {
 	@Autowired
 	private ProductService service;
 	
-	@GetMapping("/v1/hospitais/{id}/estoque")
-	public ResponseEntity<List<Product>> findAll(){
-		List<Product> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-	}
-	
 	@GetMapping("/v1/hospitais/{id}/estoque/{produto}")
 	public ResponseEntity<List<Product>> findProductById(){
 		List<Product> list = service.findAll();

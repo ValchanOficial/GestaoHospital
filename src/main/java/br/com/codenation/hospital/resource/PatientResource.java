@@ -16,12 +16,6 @@ public class PatientResource {
 	@Autowired
 	private PatientService service;
 	
-	@GetMapping("/v1/hospitais/{id}/pacientes")
-	public ResponseEntity<List<Patient>> findAll(){
-		List<Patient> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-	}
-	
 	@GetMapping("/v1/hospitais/{id}/pacientes/{paciente}")
 	public ResponseEntity<List<Patient>> findPatientById(){
 		List<Patient> list = service.findAll();
