@@ -1,10 +1,10 @@
 package br.com.codenation.hospital.resource;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.services.HospitalService;
 
+
 @RestController
-@RequestMapping(value="/")
+@RequestMapping(path = "/")
 public class HospitalResource {
 	
 	@Autowired
@@ -40,18 +40,19 @@ public class HospitalResource {
 		return ResponseEntity.ok().body(new HospitalDTO(obj));
 	}
 	
-	@PostMapping("/v1/hospitais/{id}")
+	@PostMapping("/v1/hospitais")
 	public ResponseEntity<HospitalDTO> insert(@RequestBody HospitalDTO objDTO){
 		Hospital obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+
+		return ResponseEntity.ok().body(new HospitalDTO(obj));
 	}
 	
 	@DeleteMapping("/v1/hospitais/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable String id){
+	public ResponseEntity<String> deleteById(@PathVariable String id){
 		service.delete(id);
-		return ResponseEntity.noContent().build();
+
+		return ResponseEntity.ok().body("hospital apagado: " + id);
 	}
 	
 	@PutMapping("/v1/hospitais/{id}")
@@ -59,6 +60,7 @@ public class HospitalResource {
 		Hospital obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
-		return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok().body(new HospitalDTO(obj));
 	}
 }
