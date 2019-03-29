@@ -1,7 +1,10 @@
 package br.com.codenation.hospital.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="hospital_collection")
@@ -14,6 +17,11 @@ public class Hospital implements Serializable{
 	private String address;
 	private int beds;
 	private int availableBeds;
+	//só serão acessados se forem carregados
+	@DBRef(lazy=true) 
+	private List<Patient> patients = new ArrayList<Patient>();
+	@DBRef(lazy=true)
+	private List<Product> products = new ArrayList<Product>();
 
 	public Hospital() {
 		
@@ -66,6 +74,22 @@ public class Hospital implements Serializable{
 
 	public void setAvailableBeds(int availableBeds) {
 		this.availableBeds = availableBeds;
+	}
+
+	public List<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	@Override

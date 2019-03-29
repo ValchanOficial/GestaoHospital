@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Patient;
+import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.services.HospitalService;
 
@@ -62,5 +64,17 @@ public class HospitalResource {
 		obj = service.update(obj);
 		
 		return ResponseEntity.ok().body(new HospitalDTO(obj));
+	}
+	
+	@GetMapping("/v1/hospitais/{id}/pacientes")
+	public ResponseEntity<List<Patient>> findByPatients(@PathVariable String id){
+		Hospital obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getPatients());
+	}
+	
+	@GetMapping("/v1/hospitais/{id}/estoque")
+	public ResponseEntity<List<Product>> findByProducts(@PathVariable String id){
+		Hospital obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getProducts());
 	}
 }
