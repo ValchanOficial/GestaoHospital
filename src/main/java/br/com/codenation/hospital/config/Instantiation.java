@@ -38,9 +38,9 @@ public class Instantiation implements CommandLineRunner{
 		patientRepository.deleteAll();
 		productRepository.deleteAll();
 		
-		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 1213", 21,5);
-		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Sonhos, 1213", 11,6);
-		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua dos Sonhos, 1213", 32,12);
+		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5);
+		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6);
+		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12);
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		

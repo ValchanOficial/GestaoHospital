@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,7 @@ import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.services.HospitalService;
 
-
+@CrossOrigin("http://localhost:4200") //permissão para o Angular
 @RestController
 @RequestMapping(path = "/")
 public class HospitalResource {
@@ -46,15 +46,13 @@ public class HospitalResource {
 	public ResponseEntity<HospitalDTO> insert(@RequestBody HospitalDTO objDTO){
 		Hospital obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
-
 		return ResponseEntity.ok().body(new HospitalDTO(obj));
 	}
 	
 	@DeleteMapping("/v1/hospitais/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable String id){
 		service.delete(id);
-
-		return ResponseEntity.ok().body("hospital apagado: " + id);
+		return ResponseEntity.ok().body("Hospital apagado: " + id);
 	}
 	
 	@PutMapping("/v1/hospitais/{id}")
@@ -62,7 +60,6 @@ public class HospitalResource {
 		Hospital obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.update(obj);
-		
 		return ResponseEntity.ok().body(new HospitalDTO(obj));
 	}
 	

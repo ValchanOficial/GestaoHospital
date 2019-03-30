@@ -1,0 +1,14 @@
+.color{
+    color: red;
+}
+#title{
+    padding-top: 20px;
+}
+#button{
+    background-color:#800080;
+    border-radius: 8px;
+    border: 0px;
+}
+#button:hover{
+    background-color: #b82e8a;
+}

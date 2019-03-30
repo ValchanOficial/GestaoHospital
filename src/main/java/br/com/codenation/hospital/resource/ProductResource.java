@@ -15,7 +15,7 @@ import br.com.codenation.hospital.resource.util.URL;
 import br.com.codenation.hospital.services.ProductService;
 
 @RestController
-@RequestMapping(value="/")
+@RequestMapping(path="/")
 public class ProductResource {
 	
 	@Autowired
