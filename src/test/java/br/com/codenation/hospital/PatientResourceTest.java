@@ -2,7 +2,6 @@ package br.com.codenation.hospital;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -67,7 +66,7 @@ public class PatientResourceTest {
 	@Test
 	public void deveListarTodosPacienteDoHospital() {		
 		ResponseEntity<List<Patient>> response = restTemplate.exchange(
-				  "/v1/hospitais/" + responseHospital.getBody().getId() +"/pacientes",
+				  "/v1/hospitais/" + responseHospital.getBody().getHospital_id() +"/pacientes",
 				  HttpMethod.GET,
 				  null,
 				  new ParameterizedTypeReference<List<Patient>>(){});
@@ -78,14 +77,14 @@ public class PatientResourceTest {
 		System.out.println("deveListarTodosPacienteDoHospital");
 		List<Patient> pacientes = response.getBody();
 		for (Patient patient : pacientes) {
-			System.out.println(patient.getId() + ' ' + patient.getName());
+			System.out.println(patient.getPaciente_id() + ' ' + patient.getName());
 		}
 	}
 	
 	@Test
 	public void deveListarPacienteDoHospital() {		
 		ResponseEntity<List<Patient>> response = restTemplate.exchange(
-				  "/v1/hospitais/" + responseHospital.getBody().getId() +"/pacientes/" + responsePatient.getBody().getId(),
+				  "/v1/hospitais/" + responseHospital.getBody().getHospital_id() +"/pacientes/" + responsePatient.getBody().getPaciente_id(),
 				  HttpMethod.GET,
 				  null,
 				  new ParameterizedTypeReference<List<Patient>>(){});
@@ -96,7 +95,7 @@ public class PatientResourceTest {
 		System.out.println("deveListarPacienteDoHospital");
 		List<Patient> pacientes = response.getBody();
 		for (Patient patient : pacientes) {
-			System.out.println(patient.getId() + ' ' + patient.getName());
+			System.out.println(patient.getPaciente_id() + ' ' + patient.getName());
 		}
 	}
 }

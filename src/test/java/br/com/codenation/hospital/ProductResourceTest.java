@@ -66,7 +66,7 @@ public class ProductResourceTest {
 	@Test
 	public void deveListarTodosProdutosDoHospital() {		
 		ResponseEntity<List<Product>> response = restTemplate.exchange(
-				  "/v1/hospitais/" + responseHospital.getBody().getId() +"/estoque",
+				  "/v1/hospitais/" + responseHospital.getBody().getHospital_id() +"/estoque",
 				  HttpMethod.GET,
 				  null,
 				  new ParameterizedTypeReference<List<Product>>(){});
@@ -84,7 +84,7 @@ public class ProductResourceTest {
 	@Test
 	public void deveListarProdutoDoHospital() {		
 		ResponseEntity<List<Product>> response = restTemplate.exchange(
-				  "/v1/hospitais/" + responseHospital.getBody().getId() +"/estoque/" + responseProduct.getBody().getId(),
+				  "/v1/hospitais/" + responseHospital.getBody().getHospital_id() +"/estoque/" + responseProduct.getBody().getId(),
 				  HttpMethod.GET,
 				  null,
 				  new ParameterizedTypeReference<List<Product>>(){});
