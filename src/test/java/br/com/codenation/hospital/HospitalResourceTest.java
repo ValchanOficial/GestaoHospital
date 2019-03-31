@@ -35,6 +35,7 @@ public class HospitalResourceTest {
 
 	private ResponseEntity<HospitalDTO> response;
 		
+	
 	public HospitalResourceTest() {
 		httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -62,11 +63,7 @@ public class HospitalResourceTest {
 						new HttpEntity<>(hospitalJson, httpHeaders), 
 						HospitalDTO.class);
 		
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		
-		System.out.println("deveSalvarHospital");
-		HospitalDTO hospitalDTO = salvarResponse.getBody();
-		System.out.println(hospitalDTO.getHospital_id() + ' ' + hospitalDTO.getHospitalName());
+		assertThat(salvarResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
 	@Test
@@ -80,7 +77,6 @@ public class HospitalResourceTest {
 						Void.class);
 		
 		assertThat(atualizarResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-		
 	}
 
 	@Test
@@ -103,11 +99,6 @@ public class HospitalResourceTest {
 						HospitalDTO.class);
 		
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-		
-		
-		System.out.println("deveListarHospitalPeloId");
-		HospitalDTO hospitalDTO = getResponse.getBody();
-		System.out.println(hospitalDTO.getHospital_id() + ' ' + hospitalDTO.getHospitalName());
 	}
 	
 	
@@ -120,13 +111,16 @@ public class HospitalResourceTest {
 				  new ParameterizedTypeReference<List<HospitalDTO>>(){});
 		
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+	
+	@Test
+	public void naoDeveListarHospital() {		
+		ResponseEntity<HospitalDTO> getResponse = restTemplate
+				.exchange("/v1/hospitais/0", 
+						HttpMethod.GET, 
+						null, 
+						HospitalDTO.class);
 		
-		
-		System.out.println("deveListarTodosHospitais");
-		List<HospitalDTO> hospitais = response.getBody();
-		for (HospitalDTO hospitalDTO : hospitais) {
-			System.out.println(hospitalDTO.getHospital_id() + ' ' + hospitalDTO.getHospitalName());
-		}
-		
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 }

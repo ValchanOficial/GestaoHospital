@@ -1,6 +1,7 @@
 package br.com.codenation.hospital.resource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,47 +33,199 @@ public class HospitalResource {
 	
 	@GetMapping()
 	public ResponseEntity<List<HospitalDTO>> findAll(){
-		List<Hospital> list = service.findAll();
-		List<HospitalDTO> listDTO = list.stream().map(x -> new HospitalDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
+		try {
+			List<Hospital> list = service.findAll();
+			List<HospitalDTO> listDTO = list.stream().map(x -> new HospitalDTO(x)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(listDTO);
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	@GetMapping(path="/{hospital_id}")
 	public ResponseEntity<HospitalDTO> findById(@PathVariable String hospital_id){
-		Hospital obj = service.findById(hospital_id);
-		return ResponseEntity.ok().body(new HospitalDTO(obj));
+		try {
+			Hospital obj = service.findById(hospital_id);
+			
+			HospitalDTO hospitalDTO = new HospitalDTO(obj);
+			
+			return Optional
+		            .ofNullable(hospitalDTO)
+		            .map(hospitalReponse -> ResponseEntity.ok().body(hospitalReponse))          
+		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@PostMapping()
 	public ResponseEntity<HospitalDTO> insert(@RequestBody HospitalDTO objDTO){
-		Hospital obj = service.fromDTO(objDTO);
-		obj = service.insert(obj);
-		return ResponseEntity.ok().body(new HospitalDTO(obj));
+		try {
+			Hospital obj = service.fromDTO(objDTO);
+			obj = service.insert(obj);
+			
+			HospitalDTO hospitalDTO = new HospitalDTO(obj);
+			
+			return Optional
+		            .ofNullable(hospitalDTO)
+		            .map(hospitalReponse -> ResponseEntity.ok().body(hospitalReponse))          
+		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+		}
+		catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	@DeleteMapping(path="/{hospital_id}")
 	public ResponseEntity<String> deleteById(@PathVariable String hospital_id){
-		service.delete(hospital_id);
-		return ResponseEntity.ok().body("Hospital apagado: " + hospital_id);
+		try {
+			Hospital obj = service.findById(hospital_id);
+			
+			if (obj != null) {
+				service.delete(hospital_id);
+			}
+			
+			return Optional
+		            .ofNullable(obj)
+		            .map(hospitalReponse -> ResponseEntity.ok().body("Hospital apagado id: " + hospital_id))          
+		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	@PutMapping(path="/{hospital_id}")
 	public ResponseEntity<HospitalDTO> update(@RequestBody HospitalDTO objDTO, @PathVariable String hospital_id){
-		Hospital obj = service.fromDTO(objDTO);
-		obj.setId(hospital_id);
-		obj = service.update(obj);
-		return ResponseEntity.ok().body(new HospitalDTO(obj));
+		try {
+			Hospital obj = service.fromDTO(objDTO);
+			obj.setId(hospital_id);
+			obj = service.update(obj);
+			
+			HospitalDTO hospitalDTO = new HospitalDTO(obj);
+			
+			return Optional
+		            .ofNullable(hospitalDTO)
+		            .map(hospitalReponse -> ResponseEntity.ok().body(hospitalReponse))          
+		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	@GetMapping(path="/{hospital_id}/pacientes")
 	public ResponseEntity<List<Patient>> findByPatients(@PathVariable String hospital_id){
-		Hospital obj = service.findById(hospital_id);
-		return ResponseEntity.ok().body(obj.getPatients());
+		try {
+			Hospital obj = service.findById(hospital_id);
+			
+			if (obj != null) {
+				List<Patient> patientList = obj.getPatients();
+	
+				 return Optional
+			            .ofNullable(patientList)
+			            .map(patientReponse -> ResponseEntity.ok().body(patientReponse))          
+			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+			} 
+			
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	@GetMapping(path="/{hospital_id}/estoque")
 	public ResponseEntity<List<Product>> findByProducts(@PathVariable String hospital_id){
-		Hospital obj = service.findById(hospital_id);
-		return ResponseEntity.ok().body(obj.getProducts());
+		try {
+			Hospital obj = service.findById(hospital_id);
+			
+			if (obj != null) {
+				List<Product> productList = obj.getProducts();
+	
+				 return Optional
+			            .ofNullable(productList)
+			            .map(productReponse -> ResponseEntity.ok().body(productReponse))          
+			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+			} 
+			
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+	        return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	@GetMapping(path="/{hospital_id}/pacientes/{paciente}")
+	public ResponseEntity<Patient> findByPatientsById(@PathVariable String hospital_id, @PathVariable String paciente){
+		try {
+			Hospital obj = service.findById(hospital_id);
+			
+			if (obj != null) {
+				List<Patient> patientList = obj.getPatients();
+				Patient patient = null;
+				
+				if (patientList.size() > 0) {
+					patient = patientList
+							.stream()
+							.filter(patientFilter -> patientFilter.getPaciente_id().trim().equals(paciente))
+			                .findFirst()
+			                .orElse(null);
+				}					
+				
+				 return Optional
+			            .ofNullable(patient)
+			            .map(patientReponse -> ResponseEntity.ok().body(patientReponse))          
+			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+			} 
+			
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	
+	@GetMapping(path="/{hospital_id}/estoque/{produto}")
+	public ResponseEntity<Product> findByProductById(@PathVariable String hospital_id, @PathVariable String produto){
+		try {
+			Hospital obj = service.findById(hospital_id);
+			
+			if (obj != null) {
+				List<Product> productList = obj.getProducts();
+				Product product = null;
+				
+				if (productList.size() > 0) {
+					product = productList
+							.stream()
+							.filter(productFilter -> productFilter.getId().trim().equals(produto))
+			                .findFirst()
+			                .orElse(null);
+				}					
+				
+				 return Optional
+			            .ofNullable(product)
+			            .map(productReponse -> ResponseEntity.ok().body(productReponse))          
+			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
+			}
+			 
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger 
+			
+			return ResponseEntity.notFound().build();
+		}
 	}
 }
