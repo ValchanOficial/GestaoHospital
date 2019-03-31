@@ -56,7 +56,7 @@ public class PatientResourceTest {
 				hospitalTest.setPatients(patientList);
 				Patient patient = patientList.get(0);	
 				
-				patientTest = new Patient(patient.getId(), patient.getName(), patient.getCpf(), patient.getBirthDate(), patient.getGender(), patient.getEntryDate(), patient.getHospital());
+				patientTest = new Patient(patient.getPaciente_id(), patient.getName(), patient.getCpf(), patient.getBirthDate(), patient.getGender(), patient.getEntryDate(), patient.getHospital());
 			}
 		}
 	}
@@ -75,7 +75,7 @@ public class PatientResourceTest {
 	@Test
 	public void deveListarPacienteDoHospital() {		
 		ResponseEntity<Patient> response = restTemplate.exchange(
-				  "/v1/hospitais/" + hospitalTest.getId() +"/pacientes/" + patientTest.getId(),
+				  "/v1/hospitais/" + hospitalTest.getId() +"/pacientes/" + patientTest.getPaciente_id(),
 				  HttpMethod.GET,
 				  null,
 				  new ParameterizedTypeReference<Patient>(){});

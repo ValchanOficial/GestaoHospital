@@ -17,8 +17,8 @@ public class PatientService {
 	@Autowired
 	private  PatientRepository repo;
 	
-	public Patient findById(String id) {
-		Optional<Patient> obj = repo.findById(id);
+	public Patient findById(String patient_id) {
+		Optional<Patient> obj = repo.findById(patient_id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
 	}
 	

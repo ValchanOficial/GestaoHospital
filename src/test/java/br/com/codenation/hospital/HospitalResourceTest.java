@@ -71,7 +71,7 @@ public class HospitalResourceTest {
 		String hospitalJson = "{\"name\": \"Hospital Novo\", \"address\": \"Rua dos Novos, 1000\", \"beds\": \"10\", \"availableBeds\": \"10\"}";
 		
 		ResponseEntity<Void> atualizarResponse = restTemplate
-				.exchange("/v1/hospitais/" + response.getBody().getId(), 
+				.exchange("/v1/hospitais/" + response.getBody().getHospital_id(), 
 						HttpMethod.PUT, 
 						new HttpEntity<>(hospitalJson, httpHeaders), 
 						Void.class);
@@ -82,7 +82,7 @@ public class HospitalResourceTest {
 	@Test
 	public void deveRemoverHospital() {		
 		ResponseEntity<Void> removerResponse = restTemplate
-				.exchange("/v1/hospitais/" + response.getBody().getId(), 
+				.exchange("/v1/hospitais/" + response.getBody().getHospital_id(), 
 						HttpMethod.DELETE, 
 						null, 
 						Void.class);
@@ -93,7 +93,7 @@ public class HospitalResourceTest {
 	@Test
 	public void deveListarHospitalPeloId() {		
 		ResponseEntity<HospitalDTO> getResponse = restTemplate
-				.exchange("/v1/hospitais/" + response.getBody().getId(), 
+				.exchange("/v1/hospitais/" + response.getBody().getHospital_id(), 
 						HttpMethod.GET, 
 						null, 
 						HospitalDTO.class);
