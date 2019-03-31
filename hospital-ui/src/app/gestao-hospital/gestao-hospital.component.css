@@ -5,10 +5,14 @@
     padding-top: 20px;
 }
 #button{
-    background-color:#800080;
+    background-color:#660066;
     border-radius: 8px;
     border: 0px;
 }
 #button:hover{
-    background-color: #b82e8a;
+    background-color: #7800FF;
+}
+a{
+    color: white;
+    text-decoration: none;
 }
