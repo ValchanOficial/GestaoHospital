@@ -21,10 +21,6 @@ public class ProductService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Produto não encontrado!"));
 	}
 
-	public List<Product> findByName(String product) {
-		return repo.findByNameContainingIgnoreCase(product);
-	}
-	
 	public List<Product> findByProductDescription(String description) {
 		return repo.searchProductByDescription(description);
 	}
