@@ -21,12 +21,12 @@ public class PatientResource {
 	@Autowired
 	private PatientService service;
 	
-	@GetMapping("/pacientes/{id}")
+	@GetMapping("/v1/pacientes/{id}")
 	public ResponseEntity<Patient> findPatientById(@PathVariable String id){
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
-	@GetMapping("/pacientes") //pacientes?paciente=nomeDoPaciente
+	@GetMapping("/v1/pacientes") //pacientes?paciente=nomeDoPaciente
 	public ResponseEntity<List<Patient>> findPatient(@RequestParam(value="paciente", defaultValue="") String paciente){
 		return ResponseEntity.ok().body(service.findByName(URL.decodeParam(paciente)));
 	}

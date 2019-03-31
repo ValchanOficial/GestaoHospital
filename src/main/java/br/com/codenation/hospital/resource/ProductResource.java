@@ -21,12 +21,12 @@ public class ProductResource {
 	@Autowired
 	private ProductService service;
 	
-	@GetMapping("/estoque/{id}")
+	@GetMapping("/v1/estoque/{id}")
 	public ResponseEntity<Product> findProductById(@PathVariable String id){
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
-	@GetMapping("/estoque") //estoque?produto=nomeDoProduto
+	@GetMapping("/v1/estoque") //estoque?produto=nomeDoProduto
 	public ResponseEntity<List<Product>> findProduct(@RequestParam(value="produto", defaultValue="") String description){
 		return ResponseEntity.ok().body(service.findByProductDescription(URL.decodeParam(description)));
 	}
