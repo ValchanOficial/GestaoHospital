@@ -18,13 +18,25 @@ public class HospitalService {
 	private  HospitalRepository repo;
 	
 	public List<Hospital> findAll(){
-		return repo.findAll();
+		List<Hospital> hospitals = repo.findAll();
+		for(int i = 0; i < hospitals.size(); i++) {
+			
+			hospitals.get(i).setAvailableBeds(hospitals.get(i).getBeds() - hospitals.get(i).getPatients().size());
+		}
+		return hospitals;
 	}
 	
 	public Hospital findById(String id) {
 		Optional<Hospital> obj = repo.findById(id);
+		//repo.
+		if(obj.isPresent()) {
+			
+			obj.get().setAvailableBeds(obj.get().getBeds() - obj.get().getPatients().size());
+		}
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado!"));
 	}
+	
+	
 	
 	public Hospital insert(Hospital obj) {
 		return repo.insert(obj);
