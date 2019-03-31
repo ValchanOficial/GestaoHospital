@@ -3,17 +3,18 @@ package br.com.codenation.hospital.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="hospital_collection")
 public class Hospital implements Serializable{
-	private static final long serialVersionUID = 3224856882946962360L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private String id;
-	private String name;
+	private String hospitalName;
 	private String address;
 	private int beds;
 	private int availableBeds;
@@ -30,7 +31,7 @@ public class Hospital implements Serializable{
 	public Hospital(String id, String name, String address, int beds, int availableBeds) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.hospitalName = name;
 		this.address = address;
 		this.beds = beds;
 		this.availableBeds = availableBeds;
@@ -45,11 +46,11 @@ public class Hospital implements Serializable{
 	}
 
 	public String getName() {
-		return name;
+		return hospitalName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.hospitalName = name;
 	}
 
 	public String getAddress() {
@@ -100,7 +101,9 @@ public class Hospital implements Serializable{
 		result = prime * result + availableBeds;
 		result = prime * result + beds;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((hospitalName == null) ? 0 : hospitalName.hashCode());
+		result = prime * result + ((patients == null) ? 0 : patients.hashCode());
+		result = prime * result + ((products == null) ? 0 : products.hashCode());
 		return result;
 	}
 
@@ -127,10 +130,20 @@ public class Hospital implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (hospitalName == null) {
+			if (other.hospitalName != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!hospitalName.equals(other.hospitalName))
+			return false;
+		if (patients == null) {
+			if (other.patients != null)
+				return false;
+		} else if (!patients.equals(other.patients))
+			return false;
+		if (products == null) {
+			if (other.products != null)
+				return false;
+		} else if (!products.equals(other.products))
 			return false;
 		return true;
 	}

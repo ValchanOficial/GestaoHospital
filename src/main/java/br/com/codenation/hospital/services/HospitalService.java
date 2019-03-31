@@ -18,22 +18,13 @@ public class HospitalService {
 	private  HospitalRepository repo;
 	
 	public List<Hospital> findAll(){
-		List<Hospital> hospitals = repo.findAll();
-		for(int i = 0; i < hospitals.size(); i++) {
-			
-			hospitals.get(i).setAvailableBeds(hospitals.get(i).getBeds() - hospitals.get(i).getPatients().size());
-		}
-		return hospitals;
+		return repo.findAll();
 	}
 	
-	public Hospital findById(String id) {
-		Optional<Hospital> obj = repo.findById(id);
-		//repo.
-		if(obj.isPresent()) {
-			
-			obj.get().setAvailableBeds(obj.get().getBeds() - obj.get().getPatients().size());
-		}
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado!"));
+
+	public Hospital findById(String hospital_id) {
+		Optional<Hospital> obj = repo.findById(hospital_id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado! ID:"+ hospital_id));	
 	}
 	
 	
@@ -42,9 +33,9 @@ public class HospitalService {
 		return repo.insert(obj);
 	}
 	
-	public void delete(String id) {
-		findById(id);
-		repo.deleteById(id);
+	public void delete(String hospital_id) {
+		findById(hospital_id);
+		repo.deleteById(hospital_id);
 	}
 	
 	public Hospital update(Hospital obj) {
@@ -61,6 +52,6 @@ public class HospitalService {
 	}
 
 	public Hospital fromDTO(HospitalDTO objDTO) {
-		return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
+		return new Hospital(objDTO.getHospital_id(),objDTO.getHospitalName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
 	}
 }

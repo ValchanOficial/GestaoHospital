@@ -38,31 +38,38 @@ public class Instantiation implements CommandLineRunner{
 		patientRepository.deleteAll();
 		productRepository.deleteAll();
 		
-		Hospital hospitalUm = new Hospital(null, "Hospital Um", "Rua dos Sonhos, 1213", 21,5);
-		Hospital hospitalDois = new Hospital(null, "Hospital Dois", "Rua dos Sonhos, 1213", 11,6);
-		Hospital hospitalTres = new Hospital(null, "Hospital Tres", "Rua dos Sonhos, 1213", 32,12);
+		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5);
+		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6);
+		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12);
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		
-		Patient pacient1 = new Patient(null, "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"),new PatientDTO(hospitalUm));
-		Patient pacient2 = new Patient(null, "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"),new PatientDTO(hospitalUm));
-		Patient pacient3 = new Patient(null, "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"),new PatientDTO(hospitalTres));
+		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"),new PatientDTO(hospitalUm));
+		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"),new PatientDTO(hospitalUm));
+		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"),new PatientDTO(hospitalTres));
 		
 		patientRepository.saveAll(Arrays.asList(pacient1,pacient2,pacient3));
 		
-		Product produto1 = new Product(null, "Alimento", "Maçã", 12, new ProductDTO(hospitalDois));
-		Product produto2 = new Product(null, "Alimento", "Arroz", 3, new ProductDTO(hospitalTres));
-		Product produto3 = new Product(null, "Alimento", "Feijão", 2, new ProductDTO(hospitalTres));
-		Product produto4 = new Product(null, "Alimento", "Massa", 5, new ProductDTO(hospitalTres));
+		Product produto1 = new Product("1", "Alimento", "Maçã", 12, new ProductDTO(hospitalDois));
+		Product produto2 = new Product("2", "Alimento", "Arroz", 3, new ProductDTO(hospitalTres));
+		Product produto3 = new Product("3", "Alimento", "Feijão", 2, new ProductDTO(hospitalTres));
+		Product produto4 = new Product("4", "Alimento", "Massa", 5, new ProductDTO(hospitalTres));
+		Product produto5 = new Product("5", "Alimento", "Massa", 5, new ProductDTO(hospitalUm));
 		
-		productRepository.saveAll(Arrays.asList(produto1,produto2,produto3,produto4));
+		Product produto6 = new Product("6", "Banco de Sangue", "Sangue", 8, new ProductDTO(hospitalUm));
+		Product produto7 = new Product("7", "Banco de Sangue", "Sangue", 1, new ProductDTO(hospitalDois));
+		Product produto8 = new Product("8", "Banco de Sangue", "Sangue", 4, new ProductDTO(hospitalTres));
+		
+		productRepository.saveAll(Arrays.asList(produto1,produto2,produto3,produto4,produto5,produto6,produto7,produto8));
 		
 		//referenciando pacientes e produtos ao hospital
 		hospitalUm.getPatients().addAll(Arrays.asList(pacient1,pacient2));
 		hospitalTres.getPatients().addAll(Arrays.asList(pacient3));
 		
-		hospitalTres.getProducts().addAll(Arrays.asList(produto2,produto3,produto4));
-		hospitalDois.getProducts().addAll(Arrays.asList(produto1));
+		hospitalUm.getProducts().addAll(Arrays.asList(produto5,produto6));
+		hospitalDois.getProducts().addAll(Arrays.asList(produto1,produto7));
+		hospitalTres.getProducts().addAll(Arrays.asList(produto2,produto3,produto4,produto8));
+		
 		
 		hospitalRepository.save(hospitalUm);
 		hospitalRepository.save(hospitalDois);
