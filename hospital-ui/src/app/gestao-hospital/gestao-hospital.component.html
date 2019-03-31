@@ -26,7 +26,7 @@
     <div class="p-grid">
       <div class="p-col-2">Nome do Hospital</div>
       <div class="p-col-10">
-        <input pInputText type="text" [(ngModel)]="hospital.name" placeholder="Ex.: Hospital dos Sonhos" required>
+        <input pInputText type="text" [(ngModel)]="hospital.hospitalName" placeholder="Ex.: Hospital dos Sonhos" required>
       </div>
       <div class="p-col-2">Endereço</div>
       <div class="p-col-10">
@@ -83,7 +83,7 @@
       </div>
       <div class="p-col-2">Nascimento</div>
       <div class="p-col-10">
-        <input pInputText type="text" [(ngModel)]="paciente.birthDate" placeholder="Ex.: 10/01/2019" required>
+        <p-calendar [(ngModel)]="paciente.birthDate" required></p-calendar>
       </div>
       <div class="p-col-2">Gênero</div>
       <div class="p-col-10">
@@ -91,7 +91,7 @@
       </div>
       <div class="p-col-2">Data de Entrada</div>
       <div class="p-col-10">
-        <input pInputText type="text" [(ngModel)]="paciente.entryDate" placeholder="Ex.: 10/01/2019" required>
+        <p-calendar [(ngModel)]="paciente.entryDate" required></p-calendar>
       </div>
       <div class="p-col-2">Hospital</div>
       <div class="p-col-10">
@@ -118,9 +118,9 @@
       <tr>
         <td>{{ paciente.name }}</td>
         <td>{{ paciente.cpf }}</td>
-        <td>{{ paciente.birthDate }}</td>
+        <td>{{ paciente.birthDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ paciente.gender }}</td>
-        <td>{{ paciente.entryDate }}</td>
+        <td>{{ paciente.entryDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ paciente.hospital.hospitalName }}</td>
       </tr>
     </ng-template>  

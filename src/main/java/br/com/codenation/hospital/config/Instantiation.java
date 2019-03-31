@@ -1,11 +1,14 @@
 package br.com.codenation.hospital.config;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.TimeZone;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.domain.Product;
@@ -31,7 +34,7 @@ public class Instantiation implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		
 		hospitalRepository.deleteAll(); //deleta todos dados do mongodb

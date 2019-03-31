@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { AppComponent } from './app.component';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
 import { GestaoHospitalComponent } from './gestao-hospital/gestao-hospital.component';
 
 @NgModule({
@@ -28,9 +29,12 @@ import { GestaoHospitalComponent } from './gestao-hospital/gestao-hospital.compo
     InputTextModule,
     ButtonModule,
     ToastModule,
+    CalendarModule,
     MultiSelectModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  value: Date;
+}

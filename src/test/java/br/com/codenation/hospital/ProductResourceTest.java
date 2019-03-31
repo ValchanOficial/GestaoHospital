@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.services.HospitalService;
-import br.com.codenation.hospital.services.ProductService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
