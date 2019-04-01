@@ -19,9 +19,9 @@ public class Patient implements Serializable{
 	private String gender;
 	private Date entryDate;
 	private PatientDTO hospital;
-	
+	private boolean active;
 	public Patient() {
-		
+		this.active = false;
 	}
 	
 	public Patient(String paciente_id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
@@ -33,6 +33,7 @@ public class Patient implements Serializable{
 		this.gender = gender;
 		this.entryDate = entryDate;
 		this.hospital = hospital;
+		this.active = false;
 	}
 
 	public String getPaciente_id() {
@@ -78,7 +79,9 @@ public class Patient implements Serializable{
 	public void setHospital(PatientDTO hospital) {
 		this.hospital = hospital;
 	}
-
+	public void checkIn(){this.active=true;}
+	public void checkOut(){this.active=false;}
+	public boolean isActive(){return this.active;}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
