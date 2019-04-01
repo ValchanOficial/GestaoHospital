@@ -23,4 +23,7 @@ public class PatientService {
 		Optional<Patient> obj = repo.findById(patient_id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
 	}
+	public Patient update(Patient obj) {
+		return repo.save(obj);
+	}
 }
