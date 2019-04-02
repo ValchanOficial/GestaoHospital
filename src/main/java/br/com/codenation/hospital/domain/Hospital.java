@@ -74,6 +74,9 @@ public class Hospital implements Serializable{
 	}
 
 	public void setAvailableBeds(int availableBeds) {
+		if(availableBeds < 0){
+			throw new RuntimeException("Não possui leitos disponiveis");
+		}
 		this.availableBeds = availableBeds;
 	}
 
