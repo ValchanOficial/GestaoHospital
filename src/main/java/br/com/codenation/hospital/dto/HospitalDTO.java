@@ -6,7 +6,7 @@ import br.com.codenation.hospital.domain.Hospital;
 public class HospitalDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private String hospital_id;
+	private String id;
 	private String hospitalName;
 	private String address;
 	private int beds;
@@ -17,19 +17,19 @@ public class HospitalDTO implements Serializable{
 	}
 	
 	public HospitalDTO(Hospital obj) {
-		this.hospital_id = obj.getId();
+		this.id = obj.getId();
 		this.hospitalName = obj.getName();
 		this.address = obj.getAddress();
 		this.beds = obj.getBeds();
 		this.availableBeds = obj.getAvailableBeds();
 	}
 
-	public String getHospital_id() {
-		return hospital_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setHospital_id(String hospital_id) {
-		this.hospital_id = hospital_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getHospitalName() {

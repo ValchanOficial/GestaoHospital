@@ -26,9 +26,9 @@ public class Patient implements Serializable{
 		this.exitDate = null;
 	}
 	
-	public Patient(String paciente_id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
+	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
 		super();
-		this.id = paciente_id;
+		this.id = id;
 		this.patientName = name;
 		this.cpf = cpf;
 		this.birthDate = birthDate;
@@ -39,11 +39,11 @@ public class Patient implements Serializable{
 		this.active = false;
 	}
 
-	public String getPaciente_id() {
+	public String getId() {
 		return id;
 	}
 
-	public void setPaciente_id(String paciente_id) {
+	public void setId(String paciente_id) {
 		this.id = paciente_id;
 	}
 	public String getName() {

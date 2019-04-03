@@ -1,20 +1,14 @@
 package br.com.codenation.hospital.resource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.codenation.hospital.constant.Constant;
 import br.com.codenation.hospital.domain.Hospital;
@@ -53,7 +47,7 @@ public class HospitalResource {
 			
 			return Optional
 		            .ofNullable(hospitalDTO)
-		            .map(hospitalReponse -> ResponseEntity.ok().body(hospitalReponse))          
+		            .map(hospitalResponse -> ResponseEntity.ok().body(hospitalResponse))
 		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 		} catch (Exception e) {
 			e.printStackTrace(); // TODO - trocar por logger 
@@ -72,7 +66,7 @@ public class HospitalResource {
 			
 			return Optional
 		            .ofNullable(hospitalDTO)
-		            .map(hospitalReponse -> ResponseEntity.ok().body(hospitalReponse))          
+		            .map(hospitalResponse -> ResponseEntity.ok().body(hospitalResponse))
 		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 		}
 		catch (Exception e) {
@@ -93,7 +87,7 @@ public class HospitalResource {
 			
 			return Optional
 		            .ofNullable(obj)
-		            .map(hospitalReponse -> ResponseEntity.ok().body("Hospital apagado id: " + hospital_id))          
+		            .map(hospitalResponse -> ResponseEntity.ok().body("Hospital apagado id: " + hospital_id))
 		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 		} catch (Exception e) {
 			e.printStackTrace(); // TODO - trocar por logger 
@@ -113,7 +107,7 @@ public class HospitalResource {
 			
 			return Optional
 		            .ofNullable(hospitalDTO)
-		            .map(hospitalReponse -> ResponseEntity.ok().body(hospitalReponse))          
+		            .map(hospitalResponse -> ResponseEntity.ok().body(hospitalResponse))
 		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 		} catch (Exception e) {
 			e.printStackTrace(); // TODO - trocar por logger 
@@ -132,7 +126,7 @@ public class HospitalResource {
 	
 				 return Optional
 			            .ofNullable(patientList)
-			            .map(patientReponse -> ResponseEntity.ok().body(patientReponse))          
+			            .map(patientResponse -> ResponseEntity.ok().body(patientResponse))
 			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 			} 
 			
@@ -154,7 +148,7 @@ public class HospitalResource {
 	
 				 return Optional
 			            .ofNullable(productList)
-			            .map(productReponse -> ResponseEntity.ok().body(productReponse))          
+			            .map(productResponse -> ResponseEntity.ok().body(productResponse))
 			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 			} 
 			
@@ -178,14 +172,14 @@ public class HospitalResource {
 				if (patientList.size() > 0) {
 					patient = patientList
 							.stream()
-							.filter(patientFilter -> patientFilter.getPaciente_id().trim().equals(paciente))
+							.filter(patientFilter -> patientFilter.getId().trim().equals(paciente))
 			                .findFirst()
 			                .orElse(null);
 				}					
 				
 				 return Optional
 			            .ofNullable(patient)
-			            .map(patientReponse -> ResponseEntity.ok().body(patientReponse))          
+			            .map(patientResponse -> ResponseEntity.ok().body(patientResponse))
 			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 			} 
 			
@@ -217,7 +211,7 @@ public class HospitalResource {
 				
 				 return Optional
 			            .ofNullable(product)
-			            .map(productReponse -> ResponseEntity.ok().body(productReponse))          
+			            .map(productResponse -> ResponseEntity.ok().body(productResponse))
 			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 			}
 			 
@@ -227,5 +221,13 @@ public class HospitalResource {
 			
 			return ResponseEntity.notFound().build();
 		}
+	}
+
+	@GetMapping(path = "/{id}/leitos")
+	public Map<String, Integer> vefificaLeitosDisponiveis(@PathVariable String id){
+		Hospital hospital = service.findById(id);
+		Map<String, Integer> leitos = new HashMap<>();
+		leitos.put("leitos", hospital.getAvailableBeds());
+		return leitos;
 	}
 }

@@ -2,8 +2,11 @@ package br.com.codenation.hospital;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,7 +74,7 @@ public class HospitalResourceTest {
 		String hospitalJson = "{\"name\": \"Hospital Novo\", \"address\": \"Rua dos Novos, 1000\", \"beds\": \"10\", \"availableBeds\": \"10\"}";
 		
 		ResponseEntity<Void> atualizarResponse = restTemplate
-				.exchange("/v1/hospitais/" + response.getBody().getHospital_id(), 
+				.exchange("/v1/hospitais/" + response.getBody().getId(),
 						HttpMethod.PUT, 
 						new HttpEntity<>(hospitalJson, httpHeaders), 
 						Void.class);
@@ -82,7 +85,7 @@ public class HospitalResourceTest {
 	@Test
 	public void deveRemoverHospital() {		
 		ResponseEntity<Void> removerResponse = restTemplate
-				.exchange("/v1/hospitais/" + response.getBody().getHospital_id(), 
+				.exchange("/v1/hospitais/" + response.getBody().getId(),
 						HttpMethod.DELETE, 
 						null, 
 						Void.class);
@@ -93,7 +96,7 @@ public class HospitalResourceTest {
 	@Test
 	public void deveListarHospitalPeloId() {		
 		ResponseEntity<HospitalDTO> getResponse = restTemplate
-				.exchange("/v1/hospitais/" + response.getBody().getHospital_id(), 
+				.exchange("/v1/hospitais/" + response.getBody().getId(),
 						HttpMethod.GET, 
 						null, 
 						HospitalDTO.class);
@@ -121,6 +124,29 @@ public class HospitalResourceTest {
 						null, 
 						HospitalDTO.class);
 		
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	public void deveRetornarLeitosDisponiveis(){
+		ResponseEntity<Map> getResponse = restTemplate
+				.exchange("/v1/hospitais/1/leitos",
+						HttpMethod.GET,
+						null,
+						Map.class);
+
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(getResponse.getBody().get("leitos")).isEqualTo(5);
+	}
+
+	@Test
+	public void naoDeveRetornarLeitosDisponiveis(){
+		ResponseEntity<Map> getResponse = restTemplate
+				.exchange("/v1/hospitais/0/leitos",
+						HttpMethod.GET,
+						null,
+						Map.class);
+
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 	}
 }
