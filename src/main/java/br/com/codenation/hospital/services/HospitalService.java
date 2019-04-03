@@ -52,6 +52,6 @@ public class HospitalService {
 	}
 
 	public Hospital fromDTO(HospitalDTO objDTO) {
-		return new Hospital(objDTO.getHospital_id(),objDTO.getHospitalName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
+		return new Hospital(objDTO.getId(),objDTO.getHospitalName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
 	}
 }

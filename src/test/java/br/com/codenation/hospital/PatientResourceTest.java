@@ -47,15 +47,10 @@ public class PatientResourceTest {
 	@Before
 	public void setUp(){
 		hospitalTest = hospitalService.findById("1");
-		
 		if (hospitalTest != null) {
 			List<Patient> patientList = hospitalTest.getPatients();
-					
-			if (patientList.size() > 0) {
-				hospitalTest.setPatients(patientList);
-				Patient patient = patientList.get(0);	
-				
-				patientTest = new Patient(patient.getPaciente_id(), patient.getName(), patient.getCpf(), patient.getBirthDate(), patient.getGender(), patient.getEntryDate(), patient.getHospital());
+			if (!patientList.isEmpty()) {
+				patientTest = patientList.get(0);
 			}
 		}
 	}
@@ -74,7 +69,7 @@ public class PatientResourceTest {
 	@Test
 	public void deveListarPacienteDoHospital() {		
 		ResponseEntity<Patient> response = restTemplate.exchange(
-				  "/v1/hospitais/" + hospitalTest.getId() +"/pacientes/" + patientTest.getPaciente_id(),
+				  "/v1/hospitais/" + hospitalTest.getId() +"/pacientes/" + patientTest.getId(),
 				  HttpMethod.GET,
 				  null,
 				  new ParameterizedTypeReference<Patient>(){});
