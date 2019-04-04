@@ -1,11 +1,14 @@
 package br.com.codenation.hospital.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import br.com.codenation.hospital.domain.Product;
 
-@Repository
+
 public interface ProductRepository extends MongoRepository<Product, String>{
+	Product findBy_id(ObjectId _id);
 	
+	List<Product> findByNameLikeIgnoreCase(String name);
 }
