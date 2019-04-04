@@ -52,7 +52,7 @@ public class HospitalResource {
 		} catch (Exception e) {
 			e.printStackTrace(); // TODO - trocar por logger 
 			
-	        return ResponseEntity.notFound().build();
+	        return ResponseEntity.badRequest().build();
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class HospitalResource {
 		}
 	}
 	
-	@PutMapping(path="/{hospital_id}")
+	@PutMapping(path="/{id}")
 	public ResponseEntity<HospitalDTO> update(@RequestBody HospitalDTO objDTO, @PathVariable String hospital_id){
 		try {
 			Hospital obj = service.fromDTO(objDTO);
@@ -116,6 +116,7 @@ public class HospitalResource {
 		}
 	}
 	
+	/*
 	@GetMapping(path="/{hospital_id}/pacientes")
 	public ResponseEntity<List<Patient>> findByPatients(@PathVariable String hospital_id){
 		try {
@@ -138,27 +139,7 @@ public class HospitalResource {
 		}
 	}
 	
-	@GetMapping(path="/{hospital_id}/estoque")
-	public ResponseEntity<List<Product>> findByProducts(@PathVariable String hospital_id){
-		try {
-			Hospital obj = service.findById(hospital_id);
-			
-			if (obj != null) {
-				List<Product> productList = obj.getProducts();
 	
-				 return Optional
-			            .ofNullable(productList)
-			            .map(productResponse -> ResponseEntity.ok().body(productResponse))
-			            .orElseGet( () -> ResponseEntity.notFound().build() ); 
-			} 
-			
-			return ResponseEntity.notFound().build();
-		} catch (Exception e) {
-			e.printStackTrace(); // TODO - trocar por logger 
-			
-	        return ResponseEntity.badRequest().build();
-		}
-	}
 	
 	@GetMapping(path="/{hospital_id}/pacientes/{paciente}")
 	public ResponseEntity<Patient> findByPatientsById(@PathVariable String hospital_id, @PathVariable String paciente){
@@ -221,13 +202,5 @@ public class HospitalResource {
 			
 			return ResponseEntity.notFound().build();
 		}
-	}
-
-	@GetMapping(path = "/{id}/leitos")
-	public Map<String, Integer> vefificaLeitosDisponiveis(@PathVariable String id){
-		Hospital hospital = service.findById(id);
-		Map<String, Integer> leitos = new HashMap<>();
-		leitos.put("leitos", hospital.getAvailableBeds());
-		return leitos;
-	}
+	}*/
 }
