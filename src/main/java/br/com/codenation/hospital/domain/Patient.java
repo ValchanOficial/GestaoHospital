@@ -18,28 +18,32 @@ public class Patient implements Serializable{
 	private Date birthDate;
 	private String gender;
 	private Date entryDate;
+	private Date exitDate;
 	private PatientDTO hospital;
-	
+	private boolean active;
 	public Patient() {
-		
+		this.active = false;
+		this.exitDate = null;
 	}
 	
-	public Patient(String paciente_id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
+	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
 		super();
-		this.id = paciente_id;
+		this.id = id;
 		this.patientName = name;
 		this.cpf = cpf;
 		this.birthDate = birthDate;
 		this.gender = gender;
 		this.entryDate = entryDate;
+		this.exitDate = null;
 		this.hospital = hospital;
+		this.active = false;
 	}
 
-	public String getPaciente_id() {
+	public String getId() {
 		return id;
 	}
 
-	public void setPaciente_id(String paciente_id) {
+	public void setId(String paciente_id) {
 		this.id = paciente_id;
 	}
 	public String getName() {
@@ -66,6 +70,12 @@ public class Patient implements Serializable{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public Date getExitDate() {
+		return entryDate;
+	}
+	public void setExitDate(Date exitDate) {
+		this.exitDate = exitDate;
+	}
 	public Date getEntryDate() {
 		return entryDate;
 	}
@@ -78,7 +88,17 @@ public class Patient implements Serializable{
 	public void setHospital(PatientDTO hospital) {
 		this.hospital = hospital;
 	}
+	public void checkIn(){
 
+		this.setEntryDate(entryDate);
+		this.active=true;
+	}
+	public void checkOut(){
+		Date exitDate = new Date();
+		this.setExitDate(exitDate);
+		this.active=false;
+	}
+	public boolean isActive(){return this.active;}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
