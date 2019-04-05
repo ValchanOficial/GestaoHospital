@@ -1,11 +1,15 @@
 package br.com.codenation.hospital.resource;
 
+import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.services.HospitalService;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,12 +29,20 @@ import br.com.codenation.hospital.services.HospitalService;
 import br.com.codenation.hospital.services.ProductService;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/v1/hospitais")
 public class ProductResource {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
 	
 	@Autowired
+
+	private ProductService service;
+	@Autowired
+	private HospitalService hospitalService;
+
 	private ProductService productService;
 	
 	@GetMapping(path="/{hospital_id}/estoque/{produto_id}")
@@ -119,6 +131,59 @@ public class ProductResource {
 			LOGGER.error("update - Handling error with message: {}", ex.getMessage());
 			
 	        return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping(path="/{hospital_id}/estoque")
+	public ResponseEntity<List<Product>> findByProducts(@PathVariable String hospital_id){
+		try {
+			Hospital obj = hospitalService.findById(hospital_id);
+
+			if (obj != null) {
+				List<Product> productList = obj.getProducts();
+
+				return Optional
+						.ofNullable(productList)
+						.map(productResponse -> ResponseEntity.ok().body(productResponse))
+						.orElseGet( () -> ResponseEntity.notFound().build() );
+			}
+
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger
+
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping(path="/{hospital_id}/estoque/{produto}")
+	public ResponseEntity<Product> findByProductById(@PathVariable String hospital_id, @PathVariable String produto){
+		try {
+			Hospital obj = hospitalService.findById(hospital_id);
+
+			if (obj != null) {
+				List<Product> productList = obj.getProducts();
+				Product product = null;
+
+				if (productList.size() > 0) {
+					product = productList
+							.stream()
+							.filter(productFilter -> productFilter.getId().trim().equals(produto))
+							.findFirst()
+							.orElse(null);
+				}
+
+				return Optional
+						.ofNullable(product)
+						.map(productResponse -> ResponseEntity.ok().body(productResponse))
+						.orElseGet( () -> ResponseEntity.notFound().build() );
+			}
+
+			return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace(); // TODO - trocar por logger
+
+			return ResponseEntity.notFound().build();
 		}
 	}
 }

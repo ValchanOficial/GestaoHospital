@@ -115,6 +115,16 @@ public class HospitalResource {
 	        return ResponseEntity.badRequest().build();
 		}
 	}
+
+
+	@GetMapping(path = "/{id}/leitos")
+	public Map<String, Integer> vefificaLeitosDisponiveis(@PathVariable String id){
+		Hospital hospital = service.findById(id);
+		Map<String, Integer> leitos = new HashMap<>();
+		leitos.put("leitos", hospital.getAvailableBeds());
+		return leitos;
+	}
+
 	
 	/*
 	@GetMapping(path="/{hospital_id}/pacientes")

@@ -2,6 +2,7 @@ package br.com.codenation.hospital.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -94,6 +95,24 @@ public class Hospital implements Serializable{
 
 	public List<Patient> getPatients() {
 		return patients;
+	}
+
+	public boolean addPacient(Patient patient){
+		if(availableBeds > 0 && !patients.contains(patient)) {
+			patient.setHospital(this);
+			patient.setEntryDate(new Date());
+			patient.setActive(true);
+			patient.setExitDate(null);
+			this.availableBeds--;
+			return true;
+		}
+		return false;
+	}
+
+	public void removePacient(Patient patient){
+		availableBeds++;
+		patient.setActive(false);
+		patient.setExitDate(new Date());
 	}
 
 	public void setPatients(List<Patient> patients) {

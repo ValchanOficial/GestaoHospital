@@ -2,10 +2,10 @@ package br.com.codenation.hospital.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import br.com.codenation.hospital.dto.PatientDTO;
 
 @Document(collection="patient_collection")
 public class Patient implements Serializable{
@@ -13,23 +13,31 @@ public class Patient implements Serializable{
 	
 	@Id
 	private String id;
-	private String patientName;
+	private String name;
 	private String cpf;
 	private Date birthDate;
 	private String gender;
 	private Date entryDate;
 	private Date exitDate;
-	private PatientDTO hospital;
+	@JsonIgnore
+	private Hospital hospital;
 	private boolean active;
 	public Patient() {
 		this.active = false;
 		this.exitDate = null;
 	}
-	
-	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, PatientDTO hospital) {
+
+	public Patient(String name, String cpf, Date birthDate, String gender) {
+		this.name = name;
+		this.cpf = cpf;
+		this.birthDate = birthDate;
+		this.gender = gender;
+	}
+
+	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, Hospital hospital) {
 		super();
 		this.id = id;
-		this.patientName = name;
+		this.name = name;
 		this.cpf = cpf;
 		this.birthDate = birthDate;
 		this.gender = gender;
@@ -47,10 +55,10 @@ public class Patient implements Serializable{
 		this.id = paciente_id;
 	}
 	public String getName() {
-		return patientName;
+		return name;
 	}
 	public void setName(String name) {
-		this.patientName = name;
+		this.name = name;
 	}
 	public String getCpf() {
 		return cpf;
@@ -82,22 +90,16 @@ public class Patient implements Serializable{
 	public void setEntryDate(Date entryDate) {
 		this.entryDate = entryDate;
 	}
-	public PatientDTO getHospital() {
+	public Hospital getHospital() {
 		return hospital;
 	}
-	public void setHospital(PatientDTO hospital) {
+	public void setHospital(Hospital hospital) {
 		this.hospital = hospital;
 	}
-	public void checkIn(){
+	public void setActive(Boolean active){
+		this.active = active;
+	}
 
-		this.setEntryDate(entryDate);
-		this.active=true;
-	}
-	public void checkOut(){
-		Date exitDate = new Date();
-		this.setExitDate(exitDate);
-		this.active=false;
-	}
 	public boolean isActive(){return this.active;}
 	@Override
 	public int hashCode() {
@@ -108,7 +110,7 @@ public class Patient implements Serializable{
 		result = prime * result + ((entryDate == null) ? 0 : entryDate.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((patientName == null) ? 0 : patientName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -146,10 +148,10 @@ public class Patient implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (patientName == null) {
-			if (other.patientName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!patientName.equals(other.patientName))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
