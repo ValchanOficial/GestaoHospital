@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="hospital_collection")
+// https://codeboje.de/spring-data-mongodb/
+// https://lishman.io/object-mapping-with-spring-data-mongodb
 public class Hospital implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -19,9 +21,14 @@ public class Hospital implements Serializable{
 	private String address;
 	private int beds;
 	private int availableBeds;
+	
+	
 	//só serão acessados se forem carregados
+	//Using Collection References
 	@DBRef(lazy=true) 
 	private List<Patient> patients = new ArrayList<Patient>();
+	
+	//Using Collection References
 	@DBRef(lazy=true)
 	private List<Product> products = new ArrayList<Product>();
 
@@ -29,6 +36,11 @@ public class Hospital implements Serializable{
 		
 	}
 
+	public Hospital(String id) {
+		super();
+		this.id = id;
+	}
+	
 	public Hospital(String id, String name, String address, int beds, int availableBeds) {
 		super();
 		this.id = id;
@@ -113,6 +125,10 @@ public class Hospital implements Serializable{
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+	
+	public void setProduct(Product product) {
+		this.products.add(product);
 	}
 
 	@Override
