@@ -91,7 +91,6 @@ public class Hospital implements Serializable{
 			patient.setEntryDate(new Date());
 			patient.setActive(true);
 			patient.setExitDate(null);
-//			patients.add(patient);
 			this.availableBeds--;
 			return true;
 		}

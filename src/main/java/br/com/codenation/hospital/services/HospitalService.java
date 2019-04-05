@@ -75,7 +75,6 @@ HospitalService {
 				.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado no hospital!"));
 		hospital.removePacient(patient);
 		repo.save(hospital);
-//		patientRepository.delete(patient);
 		return patient;
 	}
 }

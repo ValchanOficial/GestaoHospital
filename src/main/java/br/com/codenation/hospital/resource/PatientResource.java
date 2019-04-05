@@ -76,37 +76,4 @@ public class PatientResource {
 		Hospital hospital = hospitalService.findById(idHospital);
 		return hospitalService.checkOut(hospital, idPatient);
 	}
-
-//	@PutMapping(path="/pacientes/{paciente}", produces="application/json")
-//	public ResponseEntity<Patient> checkIn(@PathVariable("hospital_id") String hospital_id, @PathVariable("paciente") String patient_id, @RequestBody String data){
-//		Hospital obj = hospitalService.findById(hospital_id);
-//
-//		Patient p = service.findById(patient_id);
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			Map<String, String> map = mapper.readValue(data, new TypeReference<Map<String, String>>(){});
-//			if (map.get("action").equals("check-in")){
-//				if(!p.isActive()) {
-//					obj.setAvailableBeds(obj.getAvailableBeds() - 1);
-//					p.checkIn();
-//				}
-//			}else if(map.get("action").equals("check-out")){
-//				if(p.isActive()) {
-//					obj.setAvailableBeds(obj.getAvailableBeds() + 1);
-//					p.checkOut();
-//				}
-//			}
-//			hospitalService.update(obj);
-//			service.update(p);
-//		} catch (JsonGenerationException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		}catch (JsonParseException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return ResponseEntity.ok().body(p);
-//	}
 }
