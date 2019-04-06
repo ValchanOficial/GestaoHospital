@@ -97,22 +97,18 @@ public class Hospital implements Serializable{
 		return patients;
 	}
 
-	public boolean addPacient(Patient patient){
-		if(availableBeds > 0 && !patients.contains(patient)) {
-			patient.setHospital(this);
-			patient.setEntryDate(new Date());
-			patient.setActive(true);
-			patient.setExitDate(null);
-			this.availableBeds--;
-			return true;
-		}
-		return false;
+	public boolean temVaga(){
+		return availableBeds > 0;
+	}
+
+	public void addPacient(Patient patient){
+		this.availableBeds--;
+		patients.add(patient);
 	}
 
 	public void removePacient(Patient patient){
 		availableBeds++;
-		patient.setActive(false);
-		patient.setExitDate(new Date());
+		patients.remove(patient);
 	}
 
 	public void setPatients(List<Patient> patients) {

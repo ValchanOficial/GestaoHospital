@@ -62,8 +62,16 @@ HospitalService {
 	}
 
 	public Patient checkIn(Hospital hospital, Patient patient){
-		if(hospital.addPacient(patient)){
-			return patientRepository.save(patient);
+		if(hospital.temVaga()) {
+			patient.setEntryDate(new Date());
+			patient.setActive(true);
+			patient.setExitDate(null);
+			patientRepository.save(patient);
+
+			hospital.addPacient(patient);
+			repo.save(hospital);
+
+			return patient;
 		}
 		throw new HospitalCheioException();
 	}
@@ -75,6 +83,8 @@ HospitalService {
 				.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado no hospital!"));
 		hospital.removePacient(patient);
 		repo.save(hospital);
-		return patient;
+		patient.setActive(false);
+		patient.setExitDate(new Date());
+		return patientRepository.save(patient);
 	}
 }
