@@ -19,8 +19,6 @@ public class Patient implements Serializable{
 	private String gender;
 	private Date entryDate;
 	private Date exitDate;
-	@JsonIgnore
-	private Hospital hospital;
 	private boolean active;
 	public Patient() {
 		this.active = false;
@@ -34,7 +32,7 @@ public class Patient implements Serializable{
 		this.gender = gender;
 	}
 
-	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, Hospital hospital) {
+	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -43,7 +41,6 @@ public class Patient implements Serializable{
 		this.gender = gender;
 		this.entryDate = entryDate;
 		this.exitDate = null;
-		this.hospital = hospital;
 		this.active = false;
 	}
 
@@ -89,12 +86,6 @@ public class Patient implements Serializable{
 	}
 	public void setEntryDate(Date entryDate) {
 		this.entryDate = entryDate;
-	}
-	public Hospital getHospital() {
-		return hospital;
-	}
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
 	}
 	public void setActive(Boolean active){
 		this.active = active;

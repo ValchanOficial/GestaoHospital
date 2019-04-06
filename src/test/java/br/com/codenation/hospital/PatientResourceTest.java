@@ -97,39 +97,7 @@ public class PatientResourceTest {
 	@Test
 	public void deveFazerCheckinNoHospital(){
 		Patient paciente = new Patient("nome", "cpf", new Date(), "sexo");
-		hospitalTest.setAvailableBeds(1);
-		assertThat(hospitalTest.addPacient(paciente)).isTrue();
-	}
-
-	@Test
-	public void naoDeveFazerCheckinNoHospital(){
-		Patient paciente = new Patient("nome", "cpf", new Date(), "sexo");
-		hospitalTest.setAvailableBeds(0);
-		assertThat(hospitalTest.addPacient(paciente)).isFalse();
-	}
-
-	@Test
-	public void deveFazerCheckoutNoHospital(){
-		int beds = hospitalTest.getAvailableBeds();
-		hospitalTest.removePacient(patientTest);
-		assertThat(hospitalTest.getAvailableBeds()).isGreaterThan(beds);
-		assertThat(patientTest.isActive()).isFalse();
-	}
-
-	@Test //pessoa ja está no hospital
-	public void naoDeveFazerCheckinNoHospitalRest(){
-		ResponseEntity<Patient> response = restTemplate.postForEntity(
-				"/v1/hospitais/" + hospitalTest.getId() +"/pacientes/checkin",
-				patientTest,
-				Patient.class,
-				hospitalTest.getId());
-
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-	}
-
-	@Test
-	public void deveFazerCheckinNoHospitalRest(){
-		Patient paciente = new Patient("nome", "cpf", new Date(), "sexo");
+		int nPacientes = hospitalTest.getPatients().size();
 		ResponseEntity<Patient> response = restTemplate.postForEntity(
 				"/v1/hospitais/" + hospitalTest.getId() +"/pacientes/checkin",
 				paciente,
@@ -151,15 +119,4 @@ public class PatientResourceTest {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
-	@Test
-	public void naoDeveFazerCheckoutNoHospitalRest(){
-
-		ResponseEntity<Patient> response = restTemplate.postForEntity(
-				"/v1/hospitais/" + hospitalTest.getId() +"/pacientes/checkout",
-				patientTest.getId(),
-				Patient.class,
-				hospitalTest.getId());
-
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-	}
 }
