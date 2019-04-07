@@ -28,10 +28,10 @@ public class ProductResource {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
 
 	@Autowired
-	private ProductService productService;
-	
-	@GetMapping(path="/estoque/{produto_id}")
-	public ResponseEntity<ProductDTO> findProductBy(@PathVariable String hospital_id, @PathVariable String produto_id){
+	private ProductService service;
+
+	@GetMapping(path = "estoque/{produto_id}")
+	public ResponseEntity<ProductDTO> findProductBy(@PathVariable String hospital_id, @PathVariable String produto_id) {
 		try {
 			ProductDTO productDTO = service.findById(produto_id);
 			return Optional.ofNullable(productDTO).map(productReponse -> ResponseEntity.ok().body(productReponse))
@@ -41,16 +41,6 @@ public class ProductResource {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
-	@GetMapping(path="/estoque")
-	public ResponseEntity<List<ProductDTO>> findAllProductBy(@PathVariable String hospital_id){
-		try {
-			 List<ProductDTO> productList = productService.findByHospitalId(hospital_id);
-			
-			 return Optional
-		            .ofNullable(productList)
-		            .map(productReponse -> ResponseEntity.ok().body(productReponse))          
-		            .orElseGet( () -> ResponseEntity.notFound().build() ); 
 
 	@GetMapping(path = "estoque")
 	public ResponseEntity<List<ProductDTO>> findAllProductBy(@PathVariable String hospital_id) {
@@ -63,11 +53,6 @@ public class ProductResource {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
-	@PostMapping(path="/estoque")
-	public ResponseEntity<ProductDTO> insert(@PathVariable String hospital_id, @RequestBody ProductDTO productDTO){
-		try {		
-			ProductDTO newProductDTO = productService.insert(hospital_id, productDTO);
 
 	@PostMapping(path = "estoque")
 	public ResponseEntity<ProductDTO> insert(@PathVariable String hospital_id, @RequestBody ProductDTO productDTO) {
@@ -80,9 +65,9 @@ public class ProductResource {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
-	@DeleteMapping(path="/estoque/{produto_id}")
-	public ResponseEntity<String> delete(@PathVariable String hospital_id, @PathVariable String produto_id){
+
+	@DeleteMapping(path = "estoque/{produto_id}")
+	public ResponseEntity<String> delete(@PathVariable String hospital_id, @PathVariable String produto_id) {
 		try {
 			ProductDTO deleteProductDTO = service.findById(produto_id);
 			if (deleteProductDTO != null) {
@@ -96,9 +81,10 @@ public class ProductResource {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
-	@PutMapping(path="/estoque/{produto_id}")
-	public ResponseEntity<ProductDTO> update(@RequestBody ProductDTO productDTO, @PathVariable String hospital_id, @PathVariable String produto_id){
+
+	@PutMapping(path = "estoque/{produto_id}")
+	public ResponseEntity<ProductDTO> update(@RequestBody ProductDTO productDTO, @PathVariable String hospital_id,
+			@PathVariable String produto_id) {
 		try {
 			productDTO.setId(produto_id);
 			ProductDTO updateProductDTO = service.update(hospital_id, productDTO);
