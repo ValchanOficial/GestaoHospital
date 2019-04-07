@@ -26,14 +26,14 @@ import br.com.codenation.hospital.services.ProductService;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
 @RestController
-@RequestMapping(path = "/v1/hospitais")
+@RequestMapping(path = Constant.V1Path)
 public class ProductResource {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
 	
 	@Autowired
 	private ProductService productService;
 	
-	@GetMapping(path="/{hospital_id}/estoque/{produto_id}")
+	@GetMapping(path="/estoque/{produto_id}")
 	public ResponseEntity<ProductDTO> findProductBy(@PathVariable String hospital_id, @PathVariable String produto_id){
 		try {
 			 ProductDTO productDTO = productService.findById(produto_id);
@@ -48,7 +48,7 @@ public class ProductResource {
 		}
 	}
 	
-	@GetMapping(path="/{hospital_id}/estoque")
+	@GetMapping(path="/estoque")
 	public ResponseEntity<List<ProductDTO>> findAllProductBy(@PathVariable String hospital_id){
 		try {
 			 List<ProductDTO> productList = productService.findByHospitalId(hospital_id);
@@ -65,7 +65,7 @@ public class ProductResource {
 		}
 	}
 	
-	@PostMapping(path="/{hospital_id}/estoque")
+	@PostMapping(path="/estoque")
 	public ResponseEntity<ProductDTO> insert(@PathVariable String hospital_id, @RequestBody ProductDTO productDTO){
 		try {		
 			ProductDTO newProductDTO = productService.insert(hospital_id, productDTO);
@@ -82,7 +82,7 @@ public class ProductResource {
 		}
 	}
 	
-	@DeleteMapping(path="/{hospital_id}/estoque/{produto_id}")
+	@DeleteMapping(path="/estoque/{produto_id}")
 	public ResponseEntity<String> delete(@PathVariable String hospital_id, @PathVariable String produto_id){
 		try {
 			ProductDTO deleteProductDTO = productService.findById(produto_id);
@@ -103,7 +103,7 @@ public class ProductResource {
 		}
 	}
 	
-	@PutMapping(path="/{hospital_id}/estoque/{produto_id}")
+	@PutMapping(path="/estoque/{produto_id}")
 	public ResponseEntity<ProductDTO> update(@RequestBody ProductDTO productDTO, @PathVariable String hospital_id, @PathVariable String produto_id){
 		try {
 			productDTO.setId(produto_id);
