@@ -5,27 +5,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.dto.ProductDTO;
-import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.ProductRepository;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
 @Service
 public class ProductService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 	
 	@Autowired
 	private  ProductRepository productRepository;
 	
-	@Autowired
-	private  HospitalRepository hospitalRepository;
+//	@Autowired
+//	private  HospitalRepository hospitalRepository;
 	
 	@Autowired
 	private  HospitalService hospitalService;
@@ -42,10 +38,10 @@ public class ProductService {
 		return convertToDTO(findProductById(id));
     }
 	
-	private Hospital findHospitalById(String id) {
-        Optional<Hospital> result = hospitalRepository.findById(id);
-		return result.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado! ID: "+ id));
-    }
+//	private Hospital findHospitalById(String id) {
+//        Optional<Hospital> result = hospitalRepository.findById(id);
+//		return result.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado! ID: "+ id));
+//    }
 	
 	private Product findProductById(String id) {
         Optional<Product> result = productRepository.findById(id);
@@ -66,25 +62,19 @@ public class ProductService {
 	//Using Collection References
 	public ProductDTO insert(String hospitalId, ProductDTO productDTO) {
 	    Product product = fromDTO(productDTO);
-
 	    product = productRepository.save(product);
-
 		Hospital hospital = hospitalService.findById(hospitalId);
 	    hospital.setProduct(product);
-	    Hospital hospitalDb = hospitalRepository.save(hospital);
-	    
+	    //Hospital hospitalDb = hospitalRepository.save(hospital);
 		return convertToDTO(product);
 	}
 	
 	//Using Collection References
 	public void delete(String hospitalId, String productId) {
 		Product removeProduct = findProductById(productId);
-
 		Hospital hospital = hospitalService.findById(hospitalId);
 	    hospital.getProducts().remove(removeProduct);
-
-	    Hospital hospitalDb = hospitalService.update(hospital);
-	    
+	    //Hospital hospitalDb = hospitalService.update(hospital);
 		productRepository.deleteById(productId);
 	}
 	
@@ -94,24 +84,20 @@ public class ProductService {
 		updateProduct.setDescription(product.getDescription());
 		updateProduct.setQuantity(product.getQuantity());
 		updateProduct.setProductType(product.getProductType());
-		
 		return convertToDTO(productRepository.save(updateProduct));
 	}
 	
-
 	public Product fromDTO(ProductDTO productDTO) {
 		return new Product(productDTO.getProductName(), productDTO.getDescription(), productDTO.getQuantity(), productDTO.getProductType());
 	}
 	
 	private ProductDTO convertToDTO(Product model) {
 		ProductDTO dto = new ProductDTO();
-
         dto.setId(model.getId());
         dto.setName(model.getName());
         dto.setDescription(model.getDescription());
         dto.setQuantity(model.getQuantity());
         dto.setProductType(model.getProductType());
-        
         return dto;
     }
 	
@@ -120,6 +106,4 @@ public class ProductService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-	
-	
 }
