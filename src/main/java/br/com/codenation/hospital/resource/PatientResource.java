@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
 import br.com.codenation.hospital.services.HospitalService;
 import br.com.codenation.hospital.services.PatientService;
 
+@CrossOrigin("http://localhost:4200") // permissão para o Angular
 @RestController
 @RequestMapping(path = Constant.V1Path)
 public class PatientResource {

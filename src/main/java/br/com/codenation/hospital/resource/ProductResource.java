@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import br.com.codenation.hospital.constant.Constant;
 import br.com.codenation.hospital.dto.ProductDTO;
 import br.com.codenation.hospital.services.ProductService;
 
+@CrossOrigin("http://localhost:4200") // permissão para o Angular
 @RestController
 @RequestMapping(path = Constant.V1Path)
 public class ProductResource {
