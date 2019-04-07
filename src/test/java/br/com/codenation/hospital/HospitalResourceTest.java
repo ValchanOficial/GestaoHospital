@@ -110,4 +110,17 @@ public class HospitalResourceTest {
 				Map.class);
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 	}
+
+	@Test
+	public void deveRetornarHospitalMaisProximo() {
+		ResponseEntity<HospitalDTO> getResponse = restTemplate
+				.exchange(Constant.V1 + "/maisProximo",
+						HttpMethod.POST,
+						new HttpEntity<>("{\n" +
+								"\t\"lat\": 49,\n" +
+								"\t\"lon\": 70\n" +
+								"}", httpHeaders),
+						HospitalDTO.class);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
 }

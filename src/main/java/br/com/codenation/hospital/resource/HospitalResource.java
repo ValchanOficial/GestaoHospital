@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.com.codenation.hospital.domain.Location;
+import br.com.codenation.hospital.domain.Product;
+import br.com.codenation.hospital.dto.ProductDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,5 +122,16 @@ public class HospitalResource {
 		Map<String, Integer> leitos = new HashMap<>();
 		leitos.put("leitos", hospital.getAvailableBeds());
 		return leitos;
+	}
+
+	@PostMapping(path = "/maisProximo")
+	public Hospital hospitalMaisProximo(@RequestBody Location location) {
+		return service.findHospitalMaisProximoComVagas(location);
+	}
+
+	@PostMapping(path = "{id}/transferencia/{productId}")
+	public String hospitalMaisProximo(@PathVariable String id, @PathVariable String productId, @RequestBody Integer quantidade) {
+		Hospital hospital = service.findById(id);
+		return service.transfereProduto(hospital, productId, quantidade);
 	}
 }
