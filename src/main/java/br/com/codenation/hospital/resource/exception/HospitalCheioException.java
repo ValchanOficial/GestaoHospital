@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class HospitalCheioException extends RuntimeException{
+	private static final long serialVersionUID = 1L;
 
-    public HospitalCheioException() {
+	public HospitalCheioException() {
         super("Hospital sem vagas para check in!");
     }
 

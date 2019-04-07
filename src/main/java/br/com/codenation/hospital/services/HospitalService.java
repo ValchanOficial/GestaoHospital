@@ -4,15 +4,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.codenation.hospital.domain.Patient;
-import br.com.codenation.hospital.repository.PatientRepository;
-import br.com.codenation.hospital.resource.exception.HospitalCheioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.repository.HospitalRepository;
+import br.com.codenation.hospital.repository.PatientRepository;
+import br.com.codenation.hospital.resource.exception.HospitalCheioException;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
 @Service
@@ -35,7 +35,7 @@ HospitalService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado! ID:"+ hospital_id));	
 	}
 	
-	public Hospital insert(Hospital obj) {
+	public Hospital insert(Hospital obj) {		
 		return repo.insert(obj);
 	}
 	

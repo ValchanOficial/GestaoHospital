@@ -1,16 +1,12 @@
 package br.com.codenation.hospital.resource.exception;
 
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 //@ControllerAdvice //tratar possiveis erros nas requisições
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 
 	public ResourceNotFoundException(String message) {
 		super(message);

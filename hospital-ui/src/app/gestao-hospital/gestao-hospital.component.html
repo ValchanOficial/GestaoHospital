@@ -93,10 +93,6 @@
       <div class="p-col-10">
         <p-calendar [(ngModel)]="paciente.entryDate" required></p-calendar>
       </div>
-      <div class="p-col-2">Hospital</div>
-      <div class="p-col-10">
-        <input pInputText type="text" [(ngModel)]="paciente.hospital" placeholder="Ex.: Hospital dos Sonhos" required>
-      </div>
       <div class="p-col-2 p-offset-2">
         <button pButton id="button" class="btn btn-lg btn-block" type="submit" label="Adicionar" (click)=" adicionarPaciente()"></button>
       </div>
@@ -111,7 +107,6 @@
         <th>Nascimento</th>
         <th>Gênero</th>
         <th>Data de Entrada</th>
-        <th>Hospital</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-paciente>
@@ -121,7 +116,6 @@
         <td>{{ paciente.birthDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ paciente.gender }}</td>
         <td>{{ paciente.entryDate | date:'dd/MM/yyyy' }}</td>
-        <td>{{ paciente.hospital.name }}</td>
       </tr>
     </ng-template>  
   </p-table>
@@ -134,7 +128,7 @@
         <p class="color">*Necessário preencher todos os campos!!</p><br>
       </div>
       <div class="p-grid">
-        <div class="p-col-2">Tipo de produto</div>
+        <div class="p-col-2">Produto</div>
         <div class="p-col-10">
           <input pInputText type="text" [(ngModel)]="produto.productName" placeholder="Ex.: Pedro" required>
         </div>
@@ -146,9 +140,9 @@
         <div class="p-col-10">
           <input pInputText type="text" [(ngModel)]="produto.quantity" placeholder="Ex.: 10/01/2019" required>
         </div>
-        <div class="p-col-2">Hospital</div>
+        <div class="p-col-2">Tipo</div>
         <div class="p-col-10">
-          <input pInputText type="text" [(ngModel)]="produto.hospital" placeholder="Ex.: Feminino" required>
+          <input pInputText type="text" [(ngModel)]="produto.productType" placeholder="Ex.: 10/01/2019" required>
         </div>
         <div class="p-col-2 p-offset-2">
           <button pButton id="button" class="btn btn-lg btn-block" type="submit" label="Adicionar" (click)="adicionarProduto()"></button>
@@ -162,7 +156,7 @@
           <th>Tipo de produto</th>
           <th>Descrição</th>
           <th>Quantidade</th>
-          <th>Hospital</th>
+          <th>Tipo</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-produto>
@@ -170,7 +164,7 @@
           <td>{{ produto.name }}</td>
           <td>{{ produto.description }}</td>
           <td>{{ produto.quantity }}</td>
-          <td>{{ produto.hospital.name }}</td>
+          <td>{{ produto.productType }}</td>
         </tr>
       </ng-template>  
     </p-table>

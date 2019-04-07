@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
-import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
 
 @Document(collection="hospital_collection")
 // https://codeboje.de/spring-data-mongodb/

@@ -3,7 +3,6 @@ package br.com.codenation.hospital.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -103,13 +102,16 @@ public class Patient implements Serializable{
 	}
 
 	public boolean isActive(){return this.active;}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((entryDate == null) ? 0 : entryDate.hashCode());
+		result = prime * result + ((exitDate == null) ? 0 : exitDate.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -125,6 +127,8 @@ public class Patient implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Patient other = (Patient) obj;
+		if (active != other.active)
+			return false;
 		if (birthDate == null) {
 			if (other.birthDate != null)
 				return false;
@@ -139,6 +143,11 @@ public class Patient implements Serializable{
 			if (other.entryDate != null)
 				return false;
 		} else if (!entryDate.equals(other.entryDate))
+			return false;
+		if (exitDate == null) {
+			if (other.exitDate != null)
+				return false;
+		} else if (!exitDate.equals(other.exitDate))
 			return false;
 		if (gender == null) {
 			if (other.gender != null)
