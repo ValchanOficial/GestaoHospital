@@ -146,8 +146,8 @@ HospitalService {
 			//diminui quantidade do hospital origem
 			product.diminuiQuantidade(quantidade);
 			productRepository.save(product);
+			return "transferencia realizada!";
 		}
-
-		return "transferencia realizada!";
+		return "transferencia não pode ser feita!";
 	}
 }
