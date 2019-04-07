@@ -4,7 +4,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.codenation.hospital.domain.Location;
+import br.com.codenation.hospital.domain.Product;
+import br.com.codenation.hospital.dto.ProductDTO;
+import br.com.codenation.hospital.repository.ProductRepository;
+import com.mongodb.client.model.geojson.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.hospital.domain.Hospital;
@@ -24,6 +34,12 @@ HospitalService {
 
 	@Autowired
 	private PatientRepository patientRepository;
+
+	@Autowired
+	private ProductRepository productRepository;
+
+	@Autowired
+	private MongoTemplate template;
 	
 	public List<Hospital> findAll(){
 		return repo.findAll();
@@ -88,4 +104,50 @@ HospitalService {
 		return patientRepository.save(patient);
 	}
 
+	public Hospital findHospitalMaisProximoComVagas(Location location) {
+		Point point = new Point(location.getLon(), location.getLat());
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("location").near(point).maxDistance(1000));
+		query.addCriteria(Criteria.where("availableBeds").gt(0));
+//		query.with(Sort.by(""))
+
+		List<Hospital> list =  template.find(query, Hospital.class);
+
+		return list.get(0);
+	}
+
+	private Hospital findHospitalProximoComEstoque(Product produto) {
+
+		//criar query por proximidade e que tenha produto
+
+		return null;
+	}
+
+	public String transfereProduto(Hospital hospital, String idProduto, Integer quantidade) {
+		//produto existe?
+		Product product = productRepository.findById(idProduto)
+				.orElseThrow(()-> new ObjectNotFoundException("Produto não cadastrado em nenhum hospital!"));
+		//encontra hospital mais prox que contenha o produto
+		Hospital hospitalOrigem = findHospitalProximoComEstoque(product);
+		product = hospitalOrigem.getProducts().stream()
+				.filter(p -> p.getId().equals(idProduto))
+				.findFirst().get();
+		//verifica se tem quandidade suficiente para transferir
+		if(product.getQuantity() > quantidade + 4){
+			//add novo produto no hospital
+			Product novoProduto = new Product();
+			novoProduto.setName(product.getName());
+			novoProduto.setDescription(product.getDescription());
+			novoProduto.setProductType(product.getProductType());
+			novoProduto.setQuantity(quantidade);
+			productRepository.save(novoProduto);
+			hospital.setProduct(novoProduto);
+			//diminui quantidade do hospital origem
+			product.diminuiQuantidade(quantidade);
+			productRepository.save(product);
+			return "transferencia realizada!";
+		}
+		return "transferencia não pode ser feita!";
+	}
 }

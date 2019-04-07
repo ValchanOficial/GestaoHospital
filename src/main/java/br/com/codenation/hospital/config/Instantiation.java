@@ -1,11 +1,16 @@
 package br.com.codenation.hospital.config;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.TimeZone;
 
 import br.com.codenation.hospital.domain.*;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Indexes;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -38,20 +43,9 @@ public class Instantiation implements CommandLineRunner{
 		patientRepository.deleteAll();
 		productRepository.deleteAll();
 
-		Location location1 = new LocationBuilder()
-				.setLat(49.5)
-				.setLon(70.5)
-				.build();
-
-		Location location2 = new LocationBuilder()
-				.setLat(30D)
-				.setLon(79.5)
-				.build();
-
-		Location location3 = new LocationBuilder()
-				.setLat(45D)
-				.setLon(79.5)
-				.build();
+		Location location1 = new Location(52, 49);
+		Location location2 = new Location(75, 49);
+		Location location3 = new Location(82, 49);
 
 		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5, location1);
 		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6, location2);
@@ -89,5 +83,8 @@ public class Instantiation implements CommandLineRunner{
 		hospitalRepository.save(hospitalUm);
 		hospitalRepository.save(hospitalDois);
 		hospitalRepository.save(hospitalTres);
+
+//		MongoCollection<Document> collection = database.getCollection("hospital_collection");
+//		collection.createIndex(Indexes.geo2dsphere("location"));
 	}
 }
