@@ -52,17 +52,12 @@ public class PatientResource {
 		throw new ResourceNotFoundException("Hospital sem pacientes!");
 	}
 
-	@GetMapping(path="/pacientes/{idPaciente}")
-	public Patient findPatientById(@PathVariable String hospital_id, @PathVariable String idPaciente){
-		Hospital obj = hospitalService.findById(hospital_id);
-		List<Patient> patientList = obj.getPatients();
-		if (patientList != null) {
-			return  patientList.stream()
-					.filter(patientFilter -> patientFilter.getId().trim().equals(idPaciente))
-					.findFirst()
-					.orElseThrow(() -> new ResourceNotFoundException("Paciente não encontrado!"));
-		}
-		throw new ResourceNotFoundException("Hospital sem pacientes!");
+	@GetMapping(path="/pacientes/{patientId}")
+	public Patient findPatientById(@PathVariable String hospital_id, @PathVariable String patientId){
+		Hospital hospital = hospitalService.findById(hospital_id);
+		Patient patient = service.findById(patientId);
+
+		return hospital.hasPatient(patient);
 	}
 
 	@PostMapping(path="/pacientes/checkin", produces="application/json")
@@ -72,8 +67,21 @@ public class PatientResource {
 	}
 
 	@PostMapping(path="/pacientes/checkout", produces="application/json")
-	public Patient checkinPacient(@PathVariable("hospital_id") String idHospital, @RequestBody String idPatient){
+	public Patient checkoutPacient(@PathVariable("hospital_id") String idHospital, @RequestBody String idPatient){
 		Hospital hospital = hospitalService.findById(idHospital);
 		return hospitalService.checkOut(hospital, idPatient);
+	}
+
+	@PutMapping(path = "/pacientes/{patientId}")
+	public void updatePatient(@PathVariable("hospital_id") String idHospital, @PathVariable String patientId, @RequestBody Patient patient){
+		Hospital hospital = hospitalService.findById(idHospital);
+		Patient p = service.findById(patientId);
+
+		p.setName(patient.getName());
+		p.setCpf(patient.getCpf());
+		p.setBirthDate(patient.getBirthDate());
+		p.setGender(patient.getGender());
+
+		service.update(p);
 	}
 }

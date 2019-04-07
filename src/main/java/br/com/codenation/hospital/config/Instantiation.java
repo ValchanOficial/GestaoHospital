@@ -5,17 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.TimeZone;
 
+import br.com.codenation.hospital.domain.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.codenation.hospital.domain.Hospital;
-import br.com.codenation.hospital.domain.Patient;
-import br.com.codenation.hospital.domain.Product;
-import br.com.codenation.hospital.domain.ProductType;
-import br.com.codenation.hospital.dto.PatientDTO;
-import br.com.codenation.hospital.dto.ProductDTO;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
 import br.com.codenation.hospital.repository.ProductRepository;
@@ -42,10 +37,25 @@ public class Instantiation implements CommandLineRunner{
 		hospitalRepository.deleteAll(); //deleta todos dados do mongodb
 		patientRepository.deleteAll();
 		productRepository.deleteAll();
-		
-		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5);
-		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6);
-		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12);
+
+		Location location1 = new LocationBuilder()
+				.setLat(49.5)
+				.setLon(70.5)
+				.build();
+
+		Location location2 = new LocationBuilder()
+				.setLat(30D)
+				.setLon(79.5)
+				.build();
+
+		Location location3 = new LocationBuilder()
+				.setLat(45D)
+				.setLon(79.5)
+				.build();
+
+		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5, location1);
+		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6, location2);
+		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12, location3);
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		

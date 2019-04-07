@@ -58,7 +58,7 @@ HospitalService {
 	}
 
 	public Hospital fromDTO(HospitalDTO objDTO) {
-		return new Hospital(objDTO.getId(),objDTO.getHospitalName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
+		return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
 	}
 
 	public Patient checkIn(Hospital hospital, Patient patient){
@@ -87,4 +87,5 @@ HospitalService {
 		patient.setExitDate(new Date());
 		return patientRepository.save(patient);
 	}
+
 }

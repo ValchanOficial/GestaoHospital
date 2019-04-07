@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.dto.HospitalDTO;
-import br.com.codenation.hospital.dto.PatientDTO;
 import br.com.codenation.hospital.repository.PatientRepository;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
@@ -19,8 +18,8 @@ public class PatientService {
 	@Autowired
 	private  PatientRepository repo;
 	
-	public Patient findById(String patient_id) {
-		Optional<Patient> obj = repo.findById(patient_id);
+	public Patient findById(String id) {
+		Optional<Patient> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
 	}
 	public Patient update(Patient obj) {
