@@ -4,13 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.codenation.hospital.domain.Location;
-import br.com.codenation.hospital.domain.Product;
-import br.com.codenation.hospital.dto.ProductDTO;
-import br.com.codenation.hospital.repository.ProductRepository;
-import com.mongodb.client.model.geojson.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -18,10 +12,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Location;
 import br.com.codenation.hospital.domain.Patient;
+import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
+import br.com.codenation.hospital.repository.ProductRepository;
 import br.com.codenation.hospital.resource.exception.HospitalCheioException;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 

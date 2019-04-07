@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import br.com.codenation.hospital.domain.Location;
-import br.com.codenation.hospital.domain.Product;
-import br.com.codenation.hospital.dto.ProductDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.codenation.hospital.constant.Constant;
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Location;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
 import br.com.codenation.hospital.services.HospitalService;
