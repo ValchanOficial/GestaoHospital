@@ -7,7 +7,7 @@ public class HospitalDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
-	private String hospitalName;
+	private String name;
 	private String address;
 	private int beds;
 	private int availableBeds;
@@ -18,7 +18,7 @@ public class HospitalDTO implements Serializable{
 	
 	public HospitalDTO(Hospital obj) {
 		this.id = obj.getId();
-		this.hospitalName = obj.getName();
+		this.name = obj.getName();
 		this.address = obj.getAddress();
 		this.beds = obj.getBeds();
 		this.availableBeds = obj.getAvailableBeds();
@@ -32,12 +32,12 @@ public class HospitalDTO implements Serializable{
 		this.id = id;
 	}
 
-	public String getHospitalName() {
-		return hospitalName;
+	public String getName() {
+		return name;
 	}
 
-	public void setHospitalName(String hospitalName) {
-		this.hospitalName = hospitalName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAddress() {

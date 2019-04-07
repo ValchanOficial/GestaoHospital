@@ -26,7 +26,7 @@
     <div class="p-grid">
       <div class="p-col-2">Nome do Hospital</div>
       <div class="p-col-10">
-        <input pInputText type="text" [(ngModel)]="hospital.hospitalName" placeholder="Ex.: Hospital dos Sonhos" required>
+        <input pInputText type="text" [(ngModel)]="hospital.name" placeholder="Ex.: Hospital dos Sonhos" required>
       </div>
       <div class="p-col-2">Endereço</div>
       <div class="p-col-10">
@@ -57,7 +57,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-hospital>
       <tr>
-        <td>{{ hospital.hospitalName }}</td>
+        <td>{{ hospital.name }}</td>
         <td>{{ hospital.address }}</td>
         <td>{{ hospital.beds }}</td>
         <td>{{ hospital.availableBeds }}</td>
@@ -121,7 +121,7 @@
         <td>{{ paciente.birthDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ paciente.gender }}</td>
         <td>{{ paciente.entryDate | date:'dd/MM/yyyy' }}</td>
-        <td>{{ paciente.hospital.hospitalName }}</td>
+        <td>{{ paciente.hospital.name }}</td>
       </tr>
     </ng-template>  
   </p-table>
@@ -170,7 +170,7 @@
           <td>{{ produto.name }}</td>
           <td>{{ produto.description }}</td>
           <td>{{ produto.quantity }}</td>
-          <td>{{ produto.hospital.hospitalName }}</td>
+          <td>{{ produto.hospital.name }}</td>
         </tr>
       </ng-template>  
     </p-table>

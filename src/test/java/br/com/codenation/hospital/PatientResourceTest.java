@@ -83,7 +83,7 @@ public class PatientResourceTest {
 		assertThat(response.getBody().getId()).isEqualTo(patientTest.getId());
 	}
 	
-	@Test
+	@Test //not working, only god knows why
 	public void naoDeveListarPacienteDoHospital() {		
 		ResponseEntity<Patient> response = restTemplate.exchange(
 				  "/v1/hospitais/" + hospitalTest.getId() +"/pacientes/0",
@@ -108,7 +108,7 @@ public class PatientResourceTest {
 	}
 
 	@Test
-	public void deveFazerCheckoutNoHospitalRest(){
+	public void deveFazerCheckoutNoHospital(){
 
 		ResponseEntity<Patient> response = restTemplate.postForEntity(
 				"/v1/hospitais/" + hospitalTest.getId() +"/pacientes/checkout",
@@ -119,4 +119,17 @@ public class PatientResourceTest {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
+	@Test //not working, only god knows why
+	public void deveAtualizarPacienteNoHospital(){
+		ResponseEntity<Void> response = restTemplate
+				.exchange("/v1/hospitais/" + hospitalTest.getId() +"/pacientes/" + patientTest.getId(),
+						HttpMethod.PUT,
+						new HttpEntity<>("{\n" +
+								"\t\"name\": \"paciente update\",\n" +
+								"\t\"cpf\": \"cpf update\",\n" +
+								"}", httpHeaders),
+						Void.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
 }

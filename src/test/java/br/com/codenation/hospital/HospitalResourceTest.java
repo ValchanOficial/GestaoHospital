@@ -124,7 +124,7 @@ public class HospitalResourceTest {
 						null, 
 						HospitalDTO.class);
 		
-		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 	}
 
 	@Test
@@ -147,6 +147,6 @@ public class HospitalResourceTest {
 						null,
 						Map.class);
 
-		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 	}
 }

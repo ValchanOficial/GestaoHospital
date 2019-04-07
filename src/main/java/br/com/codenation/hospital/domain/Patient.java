@@ -20,6 +20,9 @@ public class Patient implements Serializable{
 	private Date entryDate;
 	private Date exitDate;
 	private boolean active;
+
+	private Location location;
+
 	public Patient() {
 		this.active = false;
 		this.exitDate = null;
@@ -89,6 +92,14 @@ public class Patient implements Serializable{
 	}
 	public void setActive(Boolean active){
 		this.active = active;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public boolean isActive(){return this.active;}
