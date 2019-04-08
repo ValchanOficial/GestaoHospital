@@ -98,8 +98,51 @@ public class Instantiation implements CommandLineRunner{
 				.setLongitude(12.5D)
 				.build();
 
+		Location locationPatientQuatro = new LocationBuilder()
+				.setReferenceId("Rua São Paulo, 309")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Arya")
+				.setLatitude(30D)
+				.setLongitude(12.9D)
+				.build();
+		
+		
+		Location locationPatientCinco = new LocationBuilder()
+				.setReferenceId("Rua São Paulo, 310")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("João")
+				.setLatitude(30D)
+				.setLongitude(13.0D)
+				.build();
+		
+		Location locationPatientSeis = new LocationBuilder()
+				.setReferenceId("Rua São Paulo, 305")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Gabriel")
+				.setLatitude(30D)
+				.setLongitude(12.5D)
+				.build();
+		
+		Location locationPatientSete = new LocationBuilder()
+				.setReferenceId("Rua dos Sonhos, 350")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Ana")
+				.setLatitude(30D)
+				.setLongitude(11.9D)
+				.build();
+		
+		Location locationPatientOito = new LocationBuilder()
+				.setReferenceId("Rua dos Sonhos, 350")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Paula")
+				.setLatitude(30D)
+				.setLongitude(11.8D)
+				.build();
+		
 		locationRepository.saveAll(Arrays.asList(locationUm,locationDois,locationTres)); //adiciona dados
 		locationRepository.saveAll(Arrays.asList(locationPatientUm,locationPatientDois,locationPatientTres)); //adiciona dados
+		locationRepository.saveAll(Arrays.asList(locationPatientQuatro,locationPatientCinco,locationPatientSeis)); //adiciona dados
+		locationRepository.saveAll(Arrays.asList(locationPatientSete,locationPatientOito)); //adiciona dados
 		
 		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5, locationUm);
 		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6, locationDois);
@@ -107,14 +150,14 @@ public class Instantiation implements CommandLineRunner{
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		
-		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
-		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
-		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
-		Patient pacient4 = new Patient("4", "Arya", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
-		Patient pacient5 = new Patient("5", "João", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
-		Patient pacient6 = new Patient("6", "Gabriel", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
-		Patient pacient7 = new Patient("7", "Ana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
-		Patient pacient8 = new Patient("8", "Paula", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
+		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientUm);
+		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"), locationPatientDois);
+		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientTres);
+		Patient pacient4 = new Patient("4", "Arya", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientQuatro);
+		Patient pacient5 = new Patient("5", "João", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"), locationPatientCinco);
+		Patient pacient6 = new Patient("6", "Gabriel", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"), locationPatientSeis);
+		Patient pacient7 = new Patient("7", "Ana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientSete);
+		Patient pacient8 = new Patient("8", "Paula", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientOito);
 		
 		patientRepository.saveAll(Arrays.asList(pacient1,pacient2,pacient3,pacient4,pacient5,pacient6,pacient7,pacient8));
 		
