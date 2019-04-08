@@ -20,9 +20,6 @@ public class ProductService {
 	@Autowired
 	private  ProductRepository productRepository;
 	
-//	@Autowired
-//	private  HospitalRepository hospitalRepository;
-	
 	@Autowired
 	private  HospitalService hospitalService;
 	
@@ -37,11 +34,6 @@ public class ProductService {
 	public ProductDTO findById(String id) {
 		return convertToDTO(findProductById(id));
     }
-	
-//	private Hospital findHospitalById(String id) {
-//        Optional<Hospital> result = hospitalRepository.findById(id);
-//		return result.orElseThrow(() -> new ObjectNotFoundException("Hospital não encontrado! ID: "+ id));
-//    }
 	
 	private Product findProductById(String id) {
         Optional<Product> result = productRepository.findById(id);
@@ -58,23 +50,20 @@ public class ProductService {
 		List<Product> products = productRepository.findByNameLikeIgnoreCase(name);
 		return convertToDTOs(products);
     }
-	
-	//Using Collection References
+
 	public ProductDTO insert(String hospitalId, ProductDTO productDTO) {
 	    Product product = fromDTO(productDTO);
 	    product = productRepository.save(product);
 		Hospital hospital = hospitalService.findById(hospitalId);
 	    hospital.setProduct(product);
-	    //Hospital hospitalDb = hospitalRepository.save(hospital);
 		return convertToDTO(product);
 	}
 	
-	//Using Collection References
 	public void delete(String hospitalId, String productId) {
 		Product removeProduct = findProductById(productId);
 		Hospital hospital = hospitalService.findById(hospitalId);
 	    hospital.getProducts().remove(removeProduct);
-	    //Hospital hospitalDb = hospitalService.update(hospital);
+
 		productRepository.deleteById(productId);
 	}
 	

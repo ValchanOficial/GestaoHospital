@@ -40,9 +40,7 @@ public class Product implements Serializable{
 	public String getId() {
 		return _id.toHexString();
 	}
-	public void setId(ObjectId _id) {
-		this._id = _id;
-	}
+
 	public String getName() {
 		return name;
 	}

@@ -3,6 +3,7 @@ package br.com.codenation.hospital.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
@@ -16,6 +17,7 @@ import br.com.codenation.hospital.domain.Location;
 import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.dto.HospitalDTO;
+import br.com.codenation.hospital.dto.LocationDTO;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
 import br.com.codenation.hospital.repository.ProductRepository;
@@ -23,8 +25,7 @@ import br.com.codenation.hospital.resource.exception.HospitalCheioException;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
 @Service
-public class
-HospitalService {
+public class HospitalService {
 
 	@Autowired
 	private  HospitalRepository repo;
@@ -73,6 +74,16 @@ HospitalService {
 	public Hospital fromDTO(HospitalDTO objDTO) {
 		return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
 	}
+	
+	public HospitalDTO convertToDTO(Hospital model) {
+        return new HospitalDTO(model);
+    }
+	
+	public List<HospitalDTO> convertToDTOs(List<Hospital> models) {
+        return models.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }	
 
 	public Patient checkIn(Hospital hospital, Patient patient){
 		if(hospital.temVaga()) {
@@ -102,7 +113,7 @@ HospitalService {
 	}
 
 	public Hospital findHospitalMaisProximoComVagas(Location location) {
-		Point point = new Point(location.getLon(), location.getLat());
+		Point point = new Point(location.getPosition().getX(), location.getPosition().getY());
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("location").near(point).maxDistance(1000));

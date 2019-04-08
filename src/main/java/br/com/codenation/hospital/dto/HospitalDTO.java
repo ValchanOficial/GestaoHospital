@@ -11,6 +11,8 @@ public class HospitalDTO implements Serializable{
 	private String address;
 	private int beds;
 	private int availableBeds;
+	private String longitude;
+	private String latitude;
 	
 	public HospitalDTO() {
 		
@@ -22,6 +24,8 @@ public class HospitalDTO implements Serializable{
 		this.address = obj.getAddress();
 		this.beds = obj.getBeds();
 		this.availableBeds = obj.getAvailableBeds();
+		this.longitude = String.valueOf(obj.getLocation().getLocation().getX());
+		this.latitude = String.valueOf(obj.getLocation().getLocation().getY());
 	}
 
 	public String getId() {
@@ -62,5 +66,21 @@ public class HospitalDTO implements Serializable{
 
 	public void setAvailableBeds(int availableBeds) {
 		this.availableBeds = availableBeds;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 }

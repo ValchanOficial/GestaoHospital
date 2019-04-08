@@ -45,6 +45,19 @@ public class Patient implements Serializable{
 		this.exitDate = null;
 		this.active = false;
 	}
+	
+	public Patient(String id, String name, String cpf, Date birthDate, String gender, Date entryDate, Location location) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.cpf = cpf;
+		this.birthDate = birthDate;
+		this.gender = gender;
+		this.entryDate = entryDate;
+		this.exitDate = null;
+		this.active = false;
+		this.location = location;
+	}
 
 	public String getId() {
 		return id;
