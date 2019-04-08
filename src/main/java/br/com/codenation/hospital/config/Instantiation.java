@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.domain.Location;
+import br.com.codenation.hospital.domain.LocationBuilder;
+import br.com.codenation.hospital.domain.LocationCategory;
 import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.domain.ProductType;

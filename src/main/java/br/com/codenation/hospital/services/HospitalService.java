@@ -113,7 +113,7 @@ public class HospitalService {
 	}
 
 	public Hospital findHospitalMaisProximoComVagas(Location location) {
-		Point point = new Point(location.getLon(), location.getLat());
+		Point point = new Point(location.getPosition().getX(), location.getPosition().getY());
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("location").near(point).maxDistance(1000));
