@@ -5,12 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.TimeZone;
 
-import br.com.codenation.hospital.domain.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Location;
+import br.com.codenation.hospital.domain.Patient;
+import br.com.codenation.hospital.domain.Product;
+import br.com.codenation.hospital.domain.ProductType;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.LocationRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
@@ -101,11 +105,16 @@ public class Instantiation implements CommandLineRunner{
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		
-		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientUm);
-		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"), locationPatientDois);
-		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientTres);
+		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
+		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
+		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
+		Patient pacient4 = new Patient("4", "Arya", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
+		Patient pacient5 = new Patient("5", "João", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
+		Patient pacient6 = new Patient("6", "Gabriel", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
+		Patient pacient7 = new Patient("7", "Ana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
+		Patient pacient8 = new Patient("8", "Paula", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
 		
-		patientRepository.saveAll(Arrays.asList(pacient1,pacient2,pacient3));
+		patientRepository.saveAll(Arrays.asList(pacient1,pacient2,pacient3,pacient4,pacient5,pacient6,pacient7,pacient8));
 		
 
 		Product produto1 = new Product(ObjectId.get(), "Alimento", "Maçã", 12, ProductType.COMMON);
@@ -122,7 +131,7 @@ public class Instantiation implements CommandLineRunner{
 		
 		//referenciando pacientes e produtos ao hospital
 		hospitalUm.getPatients().addAll(Arrays.asList(pacient1,pacient2));
-		hospitalTres.getPatients().addAll(Arrays.asList(pacient3));
+		hospitalTres.getPatients().addAll(Arrays.asList(pacient3,pacient4,pacient5,pacient6,pacient7,pacient8));
 		
 		hospitalUm.getProducts().addAll(Arrays.asList(produto5,produto6));
 		hospitalDois.getProducts().addAll(Arrays.asList(produto1,produto7));
@@ -131,5 +140,8 @@ public class Instantiation implements CommandLineRunner{
 		hospitalRepository.save(hospitalUm);
 		hospitalRepository.save(hospitalDois);
 		hospitalRepository.save(hospitalTres);
+
+//		MongoCollection<Document> collection = database.getCollection("hospital_collection");
+//		collection.createIndex(Indexes.geo2dsphere("location"));
 	}
 }

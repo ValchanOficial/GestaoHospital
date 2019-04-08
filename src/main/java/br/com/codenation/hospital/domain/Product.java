@@ -65,7 +65,11 @@ public class Product implements Serializable{
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
-	
+
+	public void diminuiQuantidade(int quantity){
+		this.quantity-=quantity;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

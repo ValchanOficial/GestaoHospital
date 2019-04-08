@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.codenation.hospital.constant.Constant;
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Location;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
 import br.com.codenation.hospital.services.HospitalService;
@@ -119,5 +120,16 @@ public class HospitalResource {
 		Map<String, Integer> leitos = new HashMap<>();
 		leitos.put("leitos", hospital.getAvailableBeds());
 		return leitos;
+	}
+
+	@PostMapping(path = "/maisProximo")
+	public Hospital hospitalMaisProximo(@RequestBody Location location) {
+		return service.findHospitalMaisProximoComVagas(location);
+	}
+
+	@PostMapping(path = "{id}/transferencia/{productId}")
+	public String hospitalMaisProximo(@PathVariable String id, @PathVariable String productId, @RequestBody Integer quantidade) {
+		Hospital hospital = service.findById(id);
+		return service.transfereProduto(hospital, productId, quantidade);
 	}
 }
