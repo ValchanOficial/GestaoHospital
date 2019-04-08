@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.codenation.hospital.repository.HospitalRepository;
+import br.com.codenation.hospital.repository.LocationRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
 import br.com.codenation.hospital.repository.ProductRepository;
 
@@ -29,6 +30,9 @@ public class Instantiation implements CommandLineRunner{
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	private LocationRepository locationRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -37,31 +41,69 @@ public class Instantiation implements CommandLineRunner{
 		hospitalRepository.deleteAll(); //deleta todos dados do mongodb
 		patientRepository.deleteAll();
 		productRepository.deleteAll();
+		locationRepository.deleteAll();
 
-		Location location1 = new LocationBuilder()
-				.setLat(49.5)
-				.setLon(70.5)
+		Location locationUm = new LocationBuilder()
+				.setReferenceId("Rua dos Sonhos, 123")
+				.setLocationCategory(LocationCategory.HOSPITAL)
+				.setName("Hospital Um")
+				.setLatitude(30D)
+				.setLongitude(12D)
 				.build();
 
-		Location location2 = new LocationBuilder()
-				.setLat(30D)
-				.setLon(79.5)
+		Location locationDois = new LocationBuilder()
+				.setReferenceId("Rua dos Testes, 202")
+				.setLocationCategory(LocationCategory.HOSPITAL)
+				.setName("Hospital Dois")
+				.setLatitude(30D)
+				.setLongitude(12.1)
 				.build();
 
-		Location location3 = new LocationBuilder()
-				.setLat(45D)
-				.setLon(79.5)
+		Location locationTres = new LocationBuilder()
+				.setReferenceId("Rua São Paulo, 404")
+				.setLocationCategory(LocationCategory.HOSPITAL)
+				.setName("Hospital Tres")
+				.setLatitude(35D)
+				.setLongitude(12D)
+				.build();
+		
+		
+		Location locationPatientUm = new LocationBuilder()
+				.setReferenceId("Rua dos Sonhos, 15")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Maria")
+				.setLatitude(30D)
+				.setLongitude(12.1D)
 				.build();
 
-		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5, location1);
-		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6, location2);
-		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12, location3);
+		Location locationPatientDois = new LocationBuilder()
+				.setReferenceId("Rua dos Sonhos, 350")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Pedro")
+				.setLatitude(30D)
+				.setLongitude(12.2D)
+				.build();
+
+		Location locationPatientTres = new LocationBuilder()
+				.setReferenceId("Rua São Paulo, 305")
+				.setLocationCategory(LocationCategory.PATIENT)
+				.setName("Joana")
+				.setLatitude(30D)
+				.setLongitude(12.5D)
+				.build();
+
+		locationRepository.saveAll(Arrays.asList(locationUm,locationDois,locationTres)); //adiciona dados
+		locationRepository.saveAll(Arrays.asList(locationPatientUm,locationPatientDois,locationPatientTres)); //adiciona dados
+		
+		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5, locationUm);
+		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6, locationDois);
+		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12, locationTres);
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		
-		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
-		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"));
-		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"));
+		Patient pacient1 = new Patient("1", "Maria", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientUm);
+		Patient pacient2 = new Patient("2", "Pedro", "864789205", sdf.parse("16/07/2003"), "masculino", sdf.parse("16/07/2019"), locationPatientDois);
+		Patient pacient3 = new Patient("3", "Joana", "864789205", sdf.parse("16/07/2003"), "feminino", sdf.parse("16/07/2019"), locationPatientTres);
 		
 		patientRepository.saveAll(Arrays.asList(pacient1,pacient2,pacient3));
 		

@@ -3,21 +3,23 @@ package br.com.codenation.hospital.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Location;
 import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.dto.HospitalDTO;
+import br.com.codenation.hospital.dto.LocationDTO;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
 import br.com.codenation.hospital.resource.exception.HospitalCheioException;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
 @Service
-public class
-HospitalService {
+public class HospitalService {
 
 	@Autowired
 	private  HospitalRepository repo;
@@ -60,6 +62,16 @@ HospitalService {
 	public Hospital fromDTO(HospitalDTO objDTO) {
 		return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
 	}
+	
+	public HospitalDTO convertToDTO(Hospital model) {
+        return new HospitalDTO(model);
+    }
+	
+	public List<HospitalDTO> convertToDTOs(List<Hospital> models) {
+        return models.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }	
 
 	public Patient checkIn(Hospital hospital, Patient patient){
 		if(hospital.temVaga()) {
