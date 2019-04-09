@@ -50,93 +50,93 @@ public class Instantiation implements CommandLineRunner{
 		locationRepository.deleteAll();
 
 		Location locationUm = new LocationBuilder()
-				.setReferenceId("Rua dos Sonhos, 123")
+				.setReferenceId("Av. Albert Einstein, 627 - Jardim Leonor, São Paulo - SP, 05652-900")
 				.setLocationCategory(LocationCategory.HOSPITAL)
-				.setName("Hospital Um")
-				.setLatitude(30D)
-				.setLongitude(12D)
+				.setName("Hospital Israelita Albert Einstein")
+				.setLatitude(-23.5920091D)
+				.setLongitude(-46.6388042029871D)
 				.build();
 
 		Location locationDois = new LocationBuilder()
-				.setReferenceId("Rua dos Testes, 202")
+				.setReferenceId("Rua Engenheiro Oscar Americano, 840 - Jardim Guedala, São Paulo - SP, 05605-050")
 				.setLocationCategory(LocationCategory.HOSPITAL)
-				.setName("Hospital Dois")
-				.setLatitude(30D)
-				.setLongitude(12.1)
+				.setName("Hospital São Luiz Unidade Morumbi")
+				.setLatitude(-23.591093D)
+				.setLongitude(-46.703459)
 				.build();
 
 		Location locationTres = new LocationBuilder()
-				.setReferenceId("Rua São Paulo, 404")
+				.setReferenceId("Av. Prof. Francisco Morato, 719 - Butantã, São Paulo - SP, 05513-000")
 				.setLocationCategory(LocationCategory.HOSPITAL)
-				.setName("Hospital Tres")
-				.setLatitude(35D)
-				.setLongitude(12D)
+				.setName("Hospital Next Butantã")
+				.setLatitude(-23.578151D)
+				.setLongitude(-46.708343D)
 				.build();
 		
 		
 		Location locationPatientUm = new LocationBuilder()
-				.setReferenceId("Rua dos Sonhos, 15")
+				.setReferenceId("R. José Pepe, 40-142 - Jardim Leonor, São Paulo - SP, 05652-080")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Maria")
-				.setLatitude(30D)
-				.setLongitude(12.1D)
+				.setLatitude(-23.597442D)
+				.setLongitude(-46.713830D)
 				.build();
 
 		Location locationPatientDois = new LocationBuilder()
-				.setReferenceId("Rua dos Sonhos, 350")
+				.setReferenceId("Rua Dr. Celso Dario Guimarães, 201 - Jardim Morumby, São Paulo - SP, 05655-030")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Pedro")
-				.setLatitude(30D)
-				.setLongitude(12.2D)
+				.setLatitude(-23.608176D)
+				.setLongitude(-46.71718D)
 				.build();
 
 		Location locationPatientTres = new LocationBuilder()
-				.setReferenceId("Rua São Paulo, 305")
+				.setReferenceId("R. Alvorada do Sul, 183 - Morumbi, São Paulo - SP, 05612-010")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Joana")
-				.setLatitude(30D)
-				.setLongitude(12.5D)
+				.setLatitude(-23.591692D)
+				.setLongitude(-46.708806D)
 				.build();
 
 		Location locationPatientQuatro = new LocationBuilder()
-				.setReferenceId("Rua São Paulo, 309")
+				.setReferenceId("Av. George Saville Dodd, 45 - Morumbi, São Paulo - SP, 05608-020")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Arya")
-				.setLatitude(30D)
-				.setLongitude(12.9D)
+				.setLatitude(-23.580128D)
+				.setLongitude(-46.708799D)
 				.build();
 		
 		
 		Location locationPatientCinco = new LocationBuilder()
-				.setReferenceId("Rua São Paulo, 310")
+				.setReferenceId("Rua dos Limantos, 156 - Cidade Jardim, São Paulo - SP, 05675-020")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("João")
-				.setLatitude(30D)
-				.setLongitude(13.0D)
+				.setLatitude(-23.593855D)
+				.setLongitude(-46.701794D)
 				.build();
 		
 		Location locationPatientSeis = new LocationBuilder()
-				.setReferenceId("Rua São Paulo, 305")
+				.setReferenceId("Av. Morumbi, 354 - Morumbi, São Paulo - SP, 05606-010")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Gabriel")
-				.setLatitude(30D)
-				.setLongitude(12.5D)
+				.setLatitude(-23.578307D)
+				.setLongitude(-46.706638D)
 				.build();
 		
 		Location locationPatientSete = new LocationBuilder()
-				.setReferenceId("Rua dos Sonhos, 350")
+				.setReferenceId("R. Campo Verde, 700 - Jardim Europa, São Paulo - SP, 04794-000")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Ana")
-				.setLatitude(30D)
-				.setLongitude(11.9D)
+				.setLatitude(-23.577483D)
+				.setLongitude(-46.694697D)
 				.build();
 		
 		Location locationPatientOito = new LocationBuilder()
-				.setReferenceId("Rua dos Sonhos, 350")
+				.setReferenceId("R. Campo Verde, 516 - Jardim Europa, São Paulo - SP, 01456-010")
 				.setLocationCategory(LocationCategory.PATIENT)
 				.setName("Paula")
-				.setLatitude(30D)
-				.setLongitude(11.8D)
+				.setLatitude(-23.576718D)
+				.setLongitude(-46.693139D)
 				.build();
 		
 		locationRepository.saveAll(Arrays.asList(locationUm,locationDois,locationTres)); //adiciona dados
@@ -144,9 +144,9 @@ public class Instantiation implements CommandLineRunner{
 		locationRepository.saveAll(Arrays.asList(locationPatientQuatro,locationPatientCinco,locationPatientSeis)); //adiciona dados
 		locationRepository.saveAll(Arrays.asList(locationPatientSete,locationPatientOito)); //adiciona dados
 		
-		Hospital hospitalUm = new Hospital("1", "Hospital Um", "Rua dos Sonhos, 123", 21,5, locationUm);
-		Hospital hospitalDois = new Hospital("2", "Hospital Dois", "Rua dos Testes, 202", 11,6, locationDois);
-		Hospital hospitalTres = new Hospital("3", "Hospital Tres", "Rua São Paulo, 404", 32,12, locationTres);
+		Hospital hospitalUm = new Hospital("1", "Hospital Israelita Albert Einstein", "Av. Albert Einstein, 627 - Jardim Leonor, São Paulo - SP, 05652-900", 21,5, locationUm);
+		Hospital hospitalDois = new Hospital("2", "Hospital São Luiz Unidade Morumbi", "Rua Engenheiro Oscar Americano, 840 - Jardim Guedala, São Paulo - SP, 05605-050", 11,6, locationDois);
+		Hospital hospitalTres = new Hospital("3", "Hospital Next Butantã", "Av. Prof. Francisco Morato, 719 - Butantã, São Paulo - SP, 05513-000", 32,12, locationTres);
 		
 		hospitalRepository.saveAll(Arrays.asList(hospitalUm,hospitalDois,hospitalTres)); //adiciona dados
 		

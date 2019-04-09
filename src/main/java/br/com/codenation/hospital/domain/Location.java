@@ -39,7 +39,7 @@ public class Location implements Serializable{
 	}
 	  
 	public Location(String referenceId, LocationCategory locationCategory, String name, double longitude, double latitude) {
-	  GeoJsonPoint position = new GeoJsonPoint(longitude, latitude);
+	  GeoJsonPoint position = new GeoJsonPoint(latitude, longitude);
 	    
 	  this.referenceId = referenceId;
 	  this.locationCategory = locationCategory;
@@ -48,7 +48,7 @@ public class Location implements Serializable{
 	}
 	
 	public Location(LocationCategory locationCategory, String name, double longitude, double latitude) {
-	  GeoJsonPoint position = new GeoJsonPoint(longitude, latitude);
+	  GeoJsonPoint position = new GeoJsonPoint(latitude, longitude);
 	    
 	  this.locationCategory = locationCategory;
 	  this.name = name;
@@ -61,7 +61,7 @@ public class Location implements Serializable{
 	}
 	  
 	public Location(String subject, double longitude, double latitude) {
-	  GeoJsonPoint position = new GeoJsonPoint(longitude, latitude);
+	  GeoJsonPoint position = new GeoJsonPoint(latitude, longitude);
 	    
 	  this.name = subject;
 	  this.position = position;

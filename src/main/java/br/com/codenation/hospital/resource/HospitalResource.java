@@ -96,7 +96,7 @@ public class HospitalResource {
 		}
 	}
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/{hospital_id}")
 	public ResponseEntity<HospitalDTO> update(@RequestBody HospitalDTO objDTO, @PathVariable String hospital_id) {
 		try {
 			Hospital obj = service.fromDTO(objDTO);
@@ -114,9 +114,9 @@ public class HospitalResource {
 		}
 	}
 
-	@GetMapping(path = "/{id}/leitos")
-	public Map<String, Integer> vefificaLeitosDisponiveis(@PathVariable String id) {
-		Hospital hospital = service.findById(id);
+	@GetMapping(path = "/{hospital_id}/leitos")
+	public Map<String, Integer> vefificaLeitosDisponiveis(@PathVariable String hospital_id) {
+		Hospital hospital = service.findById(hospital_id);
 		Map<String, Integer> leitos = new HashMap<>();
 		leitos.put("leitos", hospital.getAvailableBeds());
 		return leitos;
@@ -127,9 +127,9 @@ public class HospitalResource {
 		return service.findHospitalMaisProximoComVagas(location);
 	}
 
-	@PostMapping(path = "{id}/transferencia/{productId}")
-	public String hospitalMaisProximo(@PathVariable String id, @PathVariable String productId, @RequestBody Integer quantidade) {
-		Hospital hospital = service.findById(id);
+	@PostMapping(path = "{hospital_id}/transferencia/{productId}")
+	public String hospitalMaisProximo(@PathVariable String hospital_id, @PathVariable String productId, @RequestBody Integer quantidade) {
+		Hospital hospital = service.findById(hospital_id);
 		return service.transfereProduto(hospital, productId, quantidade);
 	}
 }

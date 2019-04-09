@@ -14,19 +14,18 @@ import org.springframework.stereotype.Service;
 
 import br.com.codenation.hospital.domain.Hospital;
 import br.com.codenation.hospital.domain.Location;
+import br.com.codenation.hospital.domain.LocationBuilder;
 import br.com.codenation.hospital.domain.LocationCategory;
 import br.com.codenation.hospital.dto.HospitalDTO;
 import br.com.codenation.hospital.dto.LocationDTO;
+import br.com.codenation.hospital.integration.LocationIQResponse;
+import br.com.codenation.hospital.integration.LocationIQService;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.LocationRepository;
 import br.com.codenation.hospital.services.exception.ObjectNotFoundException;
 
 @Service
 public class LocationService {
-
-	//https://us1.locationiq.com/v1/search.php?key=43b382813d8baa&q=Paulista&format=json
-	private final String LocationKey = "43b382813d8baa";
-	private final String LocationFormat = "json";
 	
 	@Autowired
 	private  LocationRepository locationRepository;
@@ -36,6 +35,9 @@ public class LocationService {
 	
 	@Autowired
 	private  HospitalService hospitalService;
+	
+	@Autowired
+	private LocationIQService locationIQService;
 	
 	public List<LocationDTO> findByNameAndLocationNear(String name, String longitude, String latitude, Double distance) {
 		return  convertToDTOs(locationRepository.findByNameAndLocationNear(name, 
@@ -52,12 +54,12 @@ public class LocationService {
 	public List<LocationDTO> findLocationNearHospitalBy(String id) {
 		Hospital hospital = hospitalService.findById(id);
 		
-		String longitude = String.valueOf(hospital.getLocation().getLocation().getX());
-		String latitude  = String.valueOf(hospital.getLocation().getLocation().getY());
+		String longitude = String.valueOf(hospital.getLocation().getLocation().getY());
+		String latitude  = String.valueOf(hospital.getLocation().getLocation().getX());
 		Double distance  = 100.0d;
 		
 		List<Location> locations = locationRepository.findByPositionNear(
-				new Point(Double.valueOf(longitude), Double.valueOf(latitude)), 
+				new Point(Double.valueOf(latitude), Double.valueOf(longitude)), 
 				new Distance(distance, Metrics.KILOMETERS));
 		
 		List<Location> filterLocations = locations.stream()
@@ -71,12 +73,12 @@ public class LocationService {
 	public List<HospitalDTO> findHospitalNearHospitalBy(String id) {
 		Hospital hospital = hospitalService.findById(id);
 		
-		String longitude = String.valueOf(hospital.getLocation().getLocation().getX());
-		String latitude  = String.valueOf(hospital.getLocation().getLocation().getY());
+		String longitude = String.valueOf(hospital.getLocation().getLocation().getY());
+		String latitude  = String.valueOf(hospital.getLocation().getLocation().getX());
 		Double distance  = 100.0d;
 		
 		List<Location> locations = locationRepository.findByPositionNear(
-				new Point(Double.valueOf(longitude), Double.valueOf(latitude)), 
+				new Point(Double.valueOf(latitude), Double.valueOf(longitude)), 
 				new Distance(distance, Metrics.KILOMETERS));
 		
 		List<Location> filterLocations = locations.stream()
@@ -104,7 +106,7 @@ public class LocationService {
 		distance  = 100.0d;
 		
 		List<Location> locations = locationRepository.findByPositionNear(
-				new Point(Double.valueOf(longitude), Double.valueOf(latitude)), 
+				new Point(Double.valueOf(latitude), Double.valueOf(longitude)), 
 				new Distance(distance, Metrics.KILOMETERS));
 		
 		List<Location> filterLocations = locations.stream()
@@ -165,8 +167,8 @@ public class LocationService {
 	
 	public Location fromDTO(LocationDTO locationDTO) {
 		GeoJsonPoint locationPoint = new GeoJsonPoint(
-		        Double.valueOf(locationDTO.getLongitude()),
-		        Double.valueOf(locationDTO.getLatitude()));
+		        Double.valueOf(locationDTO.getLatitude()),
+		        Double.valueOf(locationDTO.getLongitude()));
 
 		return new Location(LocationCategory.valueOf(locationDTO.getCategory()), locationDTO.getName(), locationPoint);
 	}
@@ -180,4 +182,36 @@ public class LocationService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }	
+	
+	
+	public Location insertLocationByHospital(Hospital hospital) {
+		Location locationHospital = new Location();
+		
+		List<LocationIQResponse> locationsResponse = locationIQService.getLocationIQResponse(hospital.getAddress());
+		
+		LocationIQResponse locationResponse = new LocationIQResponse();
+		if (!locationsResponse.isEmpty()) {
+			locationResponse = locationsResponse.get(0);
+			
+			locationHospital = new LocationBuilder()
+					.setReferenceId(hospital.getAddress())
+					.setLocationCategory(LocationCategory.HOSPITAL)
+					.setName(hospital.getName())
+					.setLatitude(Double.valueOf(locationResponse.getLat()))
+					.setLongitude(Double.valueOf(locationResponse.getLon()))
+					.build();
+		} else {
+			locationHospital = new LocationBuilder()
+					.setReferenceId(hospital.getAddress())
+					.setLocationCategory(LocationCategory.HOSPITAL)
+					.setName(hospital.getName())
+					.setLatitude(0D)
+					.setLongitude(0D)
+					.build();
+		}
+		
+		locationRepository.save(locationHospital);
+		
+		return locationHospital;
+	}
 }
