@@ -11,6 +11,7 @@ public class LocationDTO implements Serializable {
 
 	private String id;
 	private String name;
+	private String referenceId;
 	private String category;
 	private String longitude;
 	private String latitude;
@@ -25,6 +26,7 @@ public class LocationDTO implements Serializable {
 	public LocationDTO(Location obj) {
 		this.id = obj.getId();
 		this.category = obj.getLocationCategory().getDescricao();
+		this.referenceId = obj.getReferenceId();
 		this.name = obj.getName();
 		this.latitude = String.valueOf(obj.getLocation().getY());
 		this.longitude = String.valueOf(obj.getLocation().getX());
@@ -65,6 +67,14 @@ public class LocationDTO implements Serializable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	
+	public String getReferenceId() {
+		return referenceId;
+	}
+
+	public void setReferenceId(String referenceId) {
+		this.referenceId = referenceId;
+	}
 
 	@Override
 	public boolean equals(final Object o) {
@@ -72,6 +82,7 @@ public class LocationDTO implements Serializable {
 		if (o == null || this.getClass() != o.getClass()) return false;
 		final LocationDTO that = (LocationDTO) o;
 		return 	Objects.equals(this.getId(), that.getId()) && 
+				Objects.equals(this.getReferenceId(), that.getReferenceId()) &&
 				Objects.equals(this.getName(), that.getName()) &&
 				Objects.equals(this.getLongitude(), that.getLongitude()) &&
 				Objects.equals(this.getLatitude(), that.getLatitude()) &&
@@ -80,6 +91,6 @@ public class LocationDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.getId(), this.getName(), this.getLongitude(), this.getLatitude(), this.getCategory());
+		return Objects.hash(this.getId(), this.getName(), this.getReferenceId(), this.getLongitude(), this.getLatitude(), this.getCategory());
 	}
 }
