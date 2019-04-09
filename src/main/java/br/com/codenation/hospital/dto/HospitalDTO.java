@@ -26,6 +26,7 @@ public class HospitalDTO implements Serializable{
 		this.availableBeds = obj.getAvailableBeds();
 		this.longitude = String.valueOf(obj.getLocation().getPosition().getX());
 		this.latitude = String.valueOf(obj.getLocation().getPosition().getY());
+
 	}
 
 	public String getId() {

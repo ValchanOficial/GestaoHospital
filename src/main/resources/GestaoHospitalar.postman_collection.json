@@ -6,13 +6,20 @@
 	},
 	"item": [
 		{
-			"name": "Hospitais - Retorna um hospital",
+			"name": "Hospitais - Insere um hospital",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"id\": 4,\n    \"name\": \"HOSPITAL INFANTIL DARCY VARGAS\",\n    \"address\": \"R. Dr. Seráfico de Assis Carvalho, 38-66 - Jardim Leonor, São Paulo - SP, 05614-040\",\n    \"beds\": 15,\n    \"availableBeds\": 1,\n    \"latitude\": \"0\",\n    \"longitude\": \"0\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/v1/hospitais/",
@@ -25,6 +32,63 @@
 						"v1",
 						"hospitais",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospitais - Altera um hospital",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"HOSPITAL INFANTIL DARCY VARGAS\",\n    \"address\": \"R. Dr. Seráfico de Assis Carvalho, 38-66, Jardim Leonor, São Paulo - SP, 05614-040\",\n    \"beds\": 15,\n    \"availableBeds\": 1,\n    \"latitude\": \"-23.593438\",\n    \"longitude\": \"-46.710462\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/hospitais/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"hospitais",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospitais - Retorna um hospital",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/hospitais/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"hospitais",
+						"4"
 					]
 				}
 			},
@@ -56,7 +120,7 @@
 			"response": []
 		},
 		{
-			"name": "Hospitais - Retorna uma lista com todos os produtos do estoque do hospital",
+			"name": "Estoque - Retorna uma lista com todos os produtos do estoque do hospital",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -131,7 +195,7 @@
 					"raw": "{\n    \"description\": \"Curativos 2\",\n    \"quantity\": 50,\n    \"productType\": \"COMMON\",\n    \"name\": \"Curativos 2\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/hospitais/1/estoque/5ca5740d9ab43e41748ec71a",
+					"raw": "http://localhost:8080/v1/hospitais/1/estoque/5cac077fa9c6543dc892fdf9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -142,7 +206,7 @@
 						"hospitais",
 						"1",
 						"estoque",
-						"5ca5740d9ab43e41748ec71a"
+						"5cac077fa9c6543dc892fdf9"
 					]
 				}
 			},
@@ -165,7 +229,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/hospitais/1/estoque/5ca5740d9ab43e41748ec71a",
+					"raw": "http://localhost:8080/v1/hospitais/1/estoque/5cac07a5a9c6543dc892fdf5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -176,7 +240,7 @@
 						"hospitais",
 						"1",
 						"estoque",
-						"5ca5740d9ab43e41748ec71a"
+						"5cac07a5a9c6543dc892fdf5"
 					]
 				}
 			},
@@ -192,7 +256,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/hospitais/1/estoque/5ca5740d9ab43e41748ec71a",
+					"raw": "http://localhost:8080/v1/hospitais/1/estoque/5cac074ea9c6543dc892fdf1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -203,7 +267,7 @@
 						"hospitais",
 						"1",
 						"estoque",
-						"5ca5740d9ab43e41748ec71a"
+						"5cac074ea9c6543dc892fdf1"
 					]
 				}
 			},
@@ -243,6 +307,58 @@
 							"key": "format",
 							"value": "json"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Localizacao - Retorna uma lista de endereços perto de um hospital",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/hospitais/3/proximidades",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"hospitais",
+						"3",
+						"proximidades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Localizacao - Retorna uma lista de hospitais perto de outro hospital",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/hospitais/3/hospitaisproximos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"hospitais",
+						"3",
+						"hospitaisproximos"
 					]
 				}
 			},
