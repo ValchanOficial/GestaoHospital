@@ -6,19 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.com.codenation.hospital.domain.LocationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.codenation.hospital.constant.Constant;
 import br.com.codenation.hospital.domain.Hospital;
@@ -113,23 +106,25 @@ public class HospitalResource {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+  
+	@GetMapping(path = "/{id}/leitos")
+	public Map<String, Integer> verificaLeitosDisponiveis(@PathVariable String id) {
+		Hospital hospital = service.findById(id);
 
-	@GetMapping(path = "/{hospital_id}/leitos")
-	public Map<String, Integer> vefificaLeitosDisponiveis(@PathVariable String hospital_id) {
-		Hospital hospital = service.findById(hospital_id);
 		Map<String, Integer> leitos = new HashMap<>();
 		leitos.put("leitos", hospital.getAvailableBeds());
 		return leitos;
 	}
 
-	@PostMapping(path = "/maisProximo")
-	public Hospital hospitalMaisProximo(@RequestBody Location location) {
-		return service.findHospitalMaisProximoComVagas(location);
+	@GetMapping(path = "/maisProximo")
+	public HospitalDTO hospitalMaisProximo(@RequestParam Double lat, @RequestParam Double lon, @RequestParam Double raioMaximo) {
+		return service.findHospitalMaisProximoComVagas(lat, lon, raioMaximo);
 	}
 
-	@PostMapping(path = "{hospital_id}/transferencia/{productId}")
-	public String hospitalMaisProximo(@PathVariable String hospital_id, @PathVariable String productId, @RequestBody Integer quantidade) {
-		Hospital hospital = service.findById(hospital_id);
+	@PostMapping(path = "{id}/transferencia/{productId}")
+	public String transferenciaProduto(@PathVariable String id, @PathVariable String productId, @RequestBody Integer quantidade) {
+		Hospital hospital = service.findById(id);
+
 		return service.transfereProduto(hospital, productId, quantidade);
 	}
 }
