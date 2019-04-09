@@ -52,35 +52,34 @@ public class LocationService {
 	public List<LocationDTO> findLocationNearHospitalBy(String id) {
 		Hospital hospital = hospitalService.findById(id);
 		
-		String longitude = String.valueOf(hospital.getLocation().getLocation().getX());
-		String latitude  = String.valueOf(hospital.getLocation().getLocation().getY());
+		Double longitude = hospital.getLocation().getPosition().getX();
+		Double latitude  = hospital.getLocation().getPosition().getY();
 		Double distance  = 100.0d;
 		
 		List<Location> locations = locationRepository.findByPositionNear(
-				new Point(Double.valueOf(longitude), Double.valueOf(latitude)), 
+				new Point(longitude, latitude),
 				new Distance(distance, Metrics.KILOMETERS));
 		
 		List<Location> filterLocations = locations.stream()
-				.filter(f -> f.getReferenceId() != id)
+				.filter(f -> !f.getReferenceId().equals(id))
 				.collect(Collectors.toList());
 				
 		return  convertToDTOs(filterLocations);
 	}
 	
 	// Usar para encontrar hospital perto de hospital
-	public List<HospitalDTO> findHospitalNearHospitalBy(String id) {
+	public List<HospitalDTO> findHospitalNearHospitalBy(String id, Double raio) {
 		Hospital hospital = hospitalService.findById(id);
-		
-		String longitude = String.valueOf(hospital.getLocation().getLocation().getX());
-		String latitude  = String.valueOf(hospital.getLocation().getLocation().getY());
-		Double distance  = 100.0d;
-		
+
+		Double longitude = hospital.getLocation().getPosition().getX();
+		Double latitude  = hospital.getLocation().getPosition().getY();
+
 		List<Location> locations = locationRepository.findByPositionNear(
-				new Point(Double.valueOf(longitude), Double.valueOf(latitude)), 
-				new Distance(distance, Metrics.KILOMETERS));
+				new Point(longitude, latitude),
+				new Distance(raio != null ? raio : 10000, Metrics.KILOMETERS));
 		
 		List<Location> filterLocations = locations.stream()
-				.filter(f -> f.getLocationCategory() == LocationCategory.HOSPITAL && f.getName() != hospital.getName())
+				.filter(f -> f.getLocationCategory() == LocationCategory.HOSPITAL && !f.getName().equals(hospital.getName()))
 				.collect(Collectors.toList());
 				
 		List<HospitalDTO> hospitaisDTO = new ArrayList<HospitalDTO>();
@@ -100,11 +99,12 @@ public class LocationService {
 	}
 	
 	// Usar para encontrar hospital perto de paciente, enviar endereço do paciente
-	public List<HospitalDTO> findHospitalNearLocationBy(String longitude, String latitude, Double distance) {
-		distance  = 100.0d;
+	public List<HospitalDTO> findHospitalNearLocationBy(Double longitude, Double latitude, Double distance) {
+		if(distance == null)
+			distance  = 100.0d;
 		
 		List<Location> locations = locationRepository.findByPositionNear(
-				new Point(Double.valueOf(longitude), Double.valueOf(latitude)), 
+				new Point(longitude, latitude),
 				new Distance(distance, Metrics.KILOMETERS));
 		
 		List<Location> filterLocations = locations.stream()
@@ -153,7 +153,7 @@ public class LocationService {
 		Location updateLocation = findLocationById(id);
 		Location locationData = fromDTO(locationDTO);
 		updateLocation.setName(locationData.getName());
-		updateLocation.setLocation(locationData.getLocation());
+		updateLocation.setPosition(locationData.getPosition());
 		updateLocation.setLocationCategory(LocationCategory.valueOf(locationDTO.getCategory()));
 		return convertToDTO(locationRepository.save(updateLocation));
 	}

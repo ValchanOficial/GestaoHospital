@@ -51,10 +51,10 @@ public class LocationResource {
 		}
 	 }
 	  
-	 @GetMapping(path = "/hospitaisproximos")
-	 public ResponseEntity<List<HospitalDTO>> findHospitalNearHospitalBy(@PathVariable String hospital_id) {
+	 @GetMapping(path = "/hospitaisProximos")
+	 public ResponseEntity<List<HospitalDTO>> findHospitalNearHospitalBy(@PathVariable String hospital_id, @RequestParam Double raio) {
 		try {
-			List<HospitalDTO> locations = locationService.findHospitalNearHospitalBy(hospital_id);
+			List<HospitalDTO> locations = locationService.findHospitalNearHospitalBy(hospital_id, raio);
 
 			return Optional.ofNullable(locations).map(productReponse -> ResponseEntity.ok().body(productReponse))
 					.orElseGet(() -> ResponseEntity.notFound().build());

@@ -5,9 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Map;
 
+import br.com.codenation.hospital.domain.Hospital;
+import br.com.codenation.hospital.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +38,12 @@ public class HospitalResourceTest {
 	private final HttpHeaders httpHeaders;
 
 	private ResponseEntity<HospitalDTO> response;
+
+	@Mock
+	private Hospital hospitalMock;
+
+	@Mock
+	private Product productMock;
 
 	public HospitalResourceTest() {
 		httpHeaders = new HttpHeaders();
@@ -112,14 +121,31 @@ public class HospitalResourceTest {
 	}
 
 	@Test
-	public void deveRetornarHospitalMaisProximo() {
+	public void naoDeveFazerTransferenciaDoHospitalMaisProximo() {
 		ResponseEntity<HospitalDTO> getResponse = restTemplate
-				.exchange(Constant.V1 + "/maisProximo",
+				.exchange(Constant.V1 + hospitalMock.getId() + "/transferencia/" + productMock.getId(),
 						HttpMethod.POST,
-						new HttpEntity<>("{\n" +
-								"\t\"lat\": 49,\n" +
-								"\t\"lon\": 70\n" +
-								"}", httpHeaders),
+						new HttpEntity<>("{\"quantity\": 5}", httpHeaders),
+						HospitalDTO.class);
+		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+	}
+
+//	@Test
+//	public void deveFazerTransferenciaDoHospitalMaisProximo() {
+//		ResponseEntity<HospitalDTO> getResponse = restTemplate
+//				.exchange(Constant.V1 + "1/transferencia/5cac04a481b2d504d0ed2a5a",
+//						HttpMethod.POST,
+//						new HttpEntity<>("{\"quantity\": 5}", httpHeaders),
+//						HospitalDTO.class);
+//		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+//	}
+
+	@Test
+	public void deveRetornarHospitalMaisProximoComLeitosDisponiveis() {
+		ResponseEntity<HospitalDTO> getResponse = restTemplate
+				.exchange(Constant.V1 + "/maisProximo?lat=50&lon=50&raioMaximo=50000",
+						HttpMethod.GET,
+						null,
 						HospitalDTO.class);
 		assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}

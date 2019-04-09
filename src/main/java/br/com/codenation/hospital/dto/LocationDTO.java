@@ -26,8 +26,8 @@ public class LocationDTO implements Serializable {
 		this.id = obj.getId();
 		this.category = obj.getLocationCategory().getDescricao();
 		this.name = obj.getName();
-		this.latitude = String.valueOf(obj.getLocation().getY());
-		this.longitude = String.valueOf(obj.getLocation().getX());
+		this.latitude = String.valueOf(obj.getPosition().getY());
+		this.longitude = String.valueOf(obj.getPosition().getX());
 	}
 	
 	public String getId() {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,7 +38,7 @@ public class HospitalService {
 	private ProductRepository productRepository;
 
 	@Autowired
-	private MongoTemplate template;
+	private LocationService locationService;
 	
 	public List<Hospital> findAll(){
 		return repo.findAll();
@@ -72,7 +73,7 @@ public class HospitalService {
 	}
 
 	public Hospital fromDTO(HospitalDTO objDTO) {
-		return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
+		return findById(objDTO.getId());
 	}
 	
 	public HospitalDTO convertToDTO(Hospital model) {
@@ -112,24 +113,28 @@ public class HospitalService {
 		return patientRepository.save(patient);
 	}
 
-	public Hospital findHospitalMaisProximoComVagas(Location location) {
-		Point point = new Point(location.getPosition().getX(), location.getPosition().getY());
-		Query query = new Query();
+	public HospitalDTO findHospitalMaisProximoComVagas(Double lat, Double lon, Double raioMaximo) {
+		List<HospitalDTO> hospitais = locationService.findHospitalNearLocationBy(lat, lon, raioMaximo);
 
-		query.addCriteria(Criteria.where("location").near(point).maxDistance(1000));
-		query.addCriteria(Criteria.where("availableBeds").gt(0));
-//		query.with(Sort.by(""))
-
-		List<Hospital> list =  template.find(query, Hospital.class);
-
-		return list.get(0);
+		return hospitais.stream()
+				.filter(h -> h.getAvailableBeds() > 0)
+				.findFirst()
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhum hospital próximo com vagas encontrado!"));
 	}
 
-	private Hospital findHospitalProximoComEstoque(Product produto) {
+	private Hospital findHospitalProximoComEstoque(String hospitalId, Product produto) {
 
-		//criar query por proximidade e que tenha produto
+		List<HospitalDTO> hospitaisDTO = locationService.findHospitalNearHospitalBy(hospitalId, null);
 
-		return null;
+
+		List<Hospital> hospitais = hospitaisDTO.stream()
+				.map(h -> fromDTO(h))
+				.collect(Collectors.toList());
+
+		return hospitais.stream()
+				.filter(h -> h.getProducts().contains(produto))
+				.findFirst()
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhum hospital próximo com este produto encontrado!"));
 	}
 
 	public String transfereProduto(Hospital hospital, String idProduto, Integer quantidade) {
@@ -137,7 +142,7 @@ public class HospitalService {
 		Product product = productRepository.findById(idProduto)
 				.orElseThrow(()-> new ObjectNotFoundException("Produto não cadastrado em nenhum hospital!"));
 		//encontra hospital mais prox que contenha o produto
-		Hospital hospitalOrigem = findHospitalProximoComEstoque(product);
+		Hospital hospitalOrigem = findHospitalProximoComEstoque(hospital.getId(), product);
 		product = hospitalOrigem.getProducts().stream()
 				.filter(p -> p.getId().equals(idProduto))
 				.findFirst().get();

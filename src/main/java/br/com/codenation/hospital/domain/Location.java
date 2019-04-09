@@ -86,11 +86,11 @@ public class Location implements Serializable{
 	public GeoJsonPoint getLocation() {
 	   return this.position;
 	}
-	
+
 	public void setLocation(final GeoJsonPoint position) {
 	   this.position = position;
 	}
-	  
+
 	public LocationCategory getLocationCategory() {
 		return locationCategory;
 	}
