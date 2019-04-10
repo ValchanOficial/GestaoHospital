@@ -89,7 +89,7 @@ public class HospitalResource {
 		}
 	}
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/{hospital_id}")
 	public ResponseEntity<HospitalDTO> update(@RequestBody HospitalDTO objDTO, @PathVariable String hospital_id) {
 		try {
 			Hospital obj = service.fromDTO(objDTO);

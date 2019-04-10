@@ -2,6 +2,7 @@ package br.com.codenation.hospital;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,8 +70,10 @@ public class HospitalResourceTest {
 	@Test
 	public void deveAtualizarHospital() {
 		String hospitalJson = "{\"name\": \"Hospital Novo\", \"address\": \"Rua dos Novos, 1000\", \"beds\": \"10\", \"availableBeds\": \"10\"}";
+		Map<String, String> param = new HashMap<>();
 		ResponseEntity<Void> atualizarResponse = restTemplate.exchange(Constant.V1 + response.getBody().getId(),
 				HttpMethod.PUT, new HttpEntity<>(hospitalJson, httpHeaders), Void.class);
+
 		assertThat(atualizarResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
