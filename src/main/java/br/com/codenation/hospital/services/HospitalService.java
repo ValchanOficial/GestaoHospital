@@ -79,6 +79,9 @@ public class HospitalService {
 	}
 
 	public Hospital fromDTO(HospitalDTO objDTO) {
+		if(objDTO.getId() == null){
+			return new Hospital(objDTO.getId(),objDTO.getName(),objDTO.getAddress(),objDTO.getBeds(),objDTO.getAvailableBeds());
+		}
 		return findById(objDTO.getId());
 	}
 	
