@@ -18,7 +18,6 @@ import br.com.codenation.hospital.domain.Location;
 import br.com.codenation.hospital.domain.Patient;
 import br.com.codenation.hospital.domain.Product;
 import br.com.codenation.hospital.dto.HospitalDTO;
-import br.com.codenation.hospital.dto.LocationDTO;
 import br.com.codenation.hospital.repository.HospitalRepository;
 import br.com.codenation.hospital.repository.PatientRepository;
 import br.com.codenation.hospital.repository.ProductRepository;
@@ -36,6 +35,10 @@ public class HospitalService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+
+	@Autowired
+	private LocationService locationService;
 
 	@Autowired
 	private LocationService locationService;
@@ -51,6 +54,9 @@ public class HospitalService {
 	}
 	
 	public Hospital insert(Hospital obj) {		
+		Location location = locationService.insertLocationByHospital(obj);
+		obj.setLocation(location);
+		
 		return repo.insert(obj);
 	}
 	
@@ -166,4 +172,6 @@ public class HospitalService {
 		}
 		return "transferencia não pode ser feita!";
 	}
+	
+
 }
